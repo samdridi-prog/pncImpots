@@ -1,0 +1,556 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.5">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="fr"&gt;&lt;head&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script class="injected-ffc2e83d85"&gt;</p>
+<p class="p1">(function(){'use strict';function q(b){var c=0;return function(){return c&lt;b.length?{done:!1,value:b[c++]}:{done:!0}}}function t(b){var c=typeof Symbol!="undefined"&amp;&amp;Symbol.iterator&amp;&amp;b[Symbol.iterator];if(c)return c.call(b);if(typeof b.length=="number")return{next:q(b)};throw Error(String(b)+" is not an iterable or ArrayLike");}var u=typeof Object.defineProperties=="function"?Object.defineProperty:function(b,c,g){if(b==Array.prototype||b==Object.prototype)return b;b[c]=g.value;return b};</p>
+<p class="p1">function v(b){b=["object"==typeof globalThis&amp;&amp;globalThis,b,"object"==typeof window&amp;&amp;window,"object"==typeof self&amp;&amp;self,"object"==typeof global&amp;&amp;global];for(var c=0;c&lt;b.length;++c){var g=b[c];if(g&amp;&amp;g.Math==Math)return g}throw Error("Cannot find global object");}var w=v(this);function x(b,c){if(c)a:{var g=w;b=b.split(".");for(var h=0;h&lt;b.length-1;h++){var l=b[h];if(!(l in g))break a;g=g[l]}b=b[b.length-1];h=g[b];c=c(h);c!=h&amp;&amp;c!=null&amp;&amp;u(g,b,{configurable:!0,writable:!0,value:c})}}</p>
+<p class="p1">function y(){this.j=!1;this.g=null;this.u=void 0;this.h=1;this.v=this.l=0;this.i=null}function z(b){if(b.j)throw new TypeError("Generator is already running");b.j=!0}y.prototype.o=function(b){this.u=b};function A(b,c){b.i={I:c,J:!0};b.h=b.l||b.v}y.prototype.return=function(b){this.i={return:b};this.h=this.v};function B(b){this.g=new y;this.h=b}function E(b,c){z(b.g);var g=b.g.g;if(g)return F(b,"return"in g?g["return"]:function(h){return{value:h,done:!0}},c,b.g.return);b.g.return(c);return G(b)}</p>
+<p class="p1">function F(b,c,g,h){try{var l=c.call(b.g.g,g);if(!(l instanceof Object))throw new TypeError("Iterator result "+l+" is not an object");if(!l.done)return b.g.j=!1,l;var m=l.value}catch(f){return b.g.g=null,A(b.g,f),G(b)}b.g.g=null;h.call(b.g,m);return G(b)}function G(b){for(;b.g.h;)try{var c=b.h(b.g);if(c)return b.g.j=!1,{value:c.value,done:!1}}catch(g){b.g.u=void 0,A(b.g,g)}b.g.j=!1;if(b.g.i){c=b.g.i;b.g.i=null;if(c.J)throw c.I;return{value:c.return,done:!0}}return{value:void 0,done:!0}}</p>
+<p class="p1">function H(b){this.next=function(c){z(b.g);b.g.g?c=F(b,b.g.g.next,c,b.g.o):(b.g.o(c),c=G(b));return c};this.throw=function(c){z(b.g);b.g.g?c=F(b,b.g.g["throw"],c,b.g.o):(A(b.g,c),c=G(b));return c};this.return=function(c){return E(b,c)};this[Symbol.iterator]=function(){return this}}function I(b){function c(h){return b.next(h)}function g(h){return b.throw(h)}return new Promise(function(h,l){function m(f){f.done?h(f.value):Promise.resolve(f.value).then(c,g).then(m,l)}m(b.next())})}</p>
+<p class="p1">x("Symbol",function(b){function c(m){if(this instanceof c)throw new TypeError("Symbol is not a constructor");return new g(h+(m||"")+"_"+l++,m)}function g(m,f){this.g=m;u(this,"description",{configurable:!0,writable:!0,value:f})}if(b)return b;g.prototype.toString=function(){return this.g};var h="jscomp_symbol_"+(Math.random()*1E9&gt;&gt;&gt;0)+"_",l=0;return c});</p>
+<p class="p1">x("Symbol.iterator",function(b){if(b)return b;b=Symbol("Symbol.iterator");u(Array.prototype,b,{configurable:!0,writable:!0,value:function(){return J(q(this))}});return b});function J(b){b={next:b};b[Symbol.iterator]=function(){return this};return b}</p>
+<p class="p1">x("Promise",function(b){function c(f){this.h=0;this.i=void 0;this.g=[];this.u=!1;var a=this.j();try{f(a.resolve,a.reject)}catch(d){a.reject(d)}}function g(){this.g=null}function h(f){return f instanceof c?f:new c(function(a){a(f)})}if(b)return b;g.prototype.h=function(f){if(this.g==null){this.g=[];var a=this;this.i(function(){a.l()})}this.g.push(f)};var l=w.setTimeout;g.prototype.i=function(f){l(f,0)};g.prototype.l=function(){for(;this.g&amp;&amp;this.g.length;){var f=this.g;this.g=[];for(var a=0;a&lt;f.length;++a){var d=</p>
+<p class="p1">f[a];f[a]=null;try{d()}catch(e){this.j(e)}}}this.g=null};g.prototype.j=function(f){this.i(function(){throw f;})};c.prototype.j=function(){function f(e){return function(k){d||(d=!0,e.call(a,k))}}var a=this,d=!1;return{resolve:f(this.D),reject:f(this.l)}};c.prototype.D=function(f){if(f===this)this.l(new TypeError("A Promise cannot resolve to itself"));else if(f instanceof c)this.G(f);else{a:switch(typeof f){case "object":var a=f!=null;break a;case "function":a=!0;break a;default:a=!1}a?this.C(f):this.o(f)}};</p>
+<p class="p1">c.prototype.C=function(f){var a=void 0;try{a=f.then}catch(d){this.l(d);return}typeof a=="function"?this.H(a,f):this.o(f)};c.prototype.l=function(f){this.v(2,f)};c.prototype.o=function(f){this.v(1,f)};c.prototype.v=function(f,a){if(this.h!=0)throw Error("Cannot settle("+f+", "+a+"): Promise already settled in state"+this.h);this.h=f;this.i=a;this.h===2&amp;&amp;this.F();this.K()};c.prototype.F=function(){var f=this;l(function(){if(f.B()){var a=w.console;typeof a!=="undefined"&amp;&amp;a.error(f.i)}},1)};c.prototype.B=</p>
+<p class="p1">function(){if(this.u)return!1;var f=w.CustomEvent,a=w.Event,d=w.dispatchEvent;if(typeof d==="undefined")return!0;typeof f==="function"?f=new f("unhandledrejection",{cancelable:!0}):typeof a==="function"?f=new a("unhandledrejection",{cancelable:!0}):(f=w.document.createEvent("CustomEvent"),f.initCustomEvent("unhandledrejection",!1,!0,f));f.promise=this;f.reason=this.i;return d(f)};c.prototype.K=function(){if(this.g!=null){for(var f=0;f&lt;this.g.length;++f)m.h(this.g[f]);this.g=null}};var m=new g;c.prototype.G=</p>
+<p class="p1">function(f){var a=this.j();f.A(a.resolve,a.reject)};c.prototype.H=function(f,a){var d=this.j();try{f.call(a,d.resolve,d.reject)}catch(e){d.reject(e)}};c.prototype.then=function(f,a){function d(n,r){return typeof n=="function"?function(C){try{e(n(C))}catch(D){k(D)}}:r}var e,k,p=new c(function(n,r){e=n;k=r});this.A(d(f,e),d(a,k));return p};c.prototype.catch=function(f){return this.then(void 0,f)};c.prototype.A=function(f,a){function d(){switch(e.h){case 1:f(e.i);break;case 2:a(e.i);break;default:throw Error("Unexpected state: "+</p>
+<p class="p1">e.h);}}var e=this;this.g==null?m.h(d):this.g.push(d);this.u=!0};c.resolve=h;c.reject=function(f){return new c(function(a,d){d(f)})};c.race=function(f){return new c(function(a,d){for(var e=t(f),k=e.next();!k.done;k=e.next())h(k.value).A(a,d)})};c.all=function(f){var a=t(f),d=a.next();return d.done?h([]):new c(function(e,k){function p(C){return function(D){n[C]=D;r--;r==0&amp;&amp;e(n)}}var n=[],r=0;do n.push(void 0),r++,h(d.value).A(p(n.length-1),k),d=a.next();while(!d.done)})};return c});</p>
+<p class="p1">function K(b,c){return Object.prototype.hasOwnProperty.call(b,c)}x("Object.is",function(b){return b?b:function(c,g){return c===g?c!==0||1/c===1/g:c!==c&amp;&amp;g!==g}});x("Array.prototype.includes",function(b){return b?b:function(c,g){var h=this;h instanceof String&amp;&amp;(h=String(h));var l=h.length;g=g||0;for(g&lt;0&amp;&amp;(g=Math.max(g+l,0));g&lt;l;g++){var m=h[g];if(m===c||Object.is(m,c))return!0}return!1}});</p>
+<p class="p1">x("String.prototype.includes",function(b){return b?b:function(c,g){if(this==null)throw new TypeError("The 'this' value for String.prototype.includes must not be null or undefined");if(c instanceof RegExp)throw new TypeError("First argument to String.prototype.includes must not be a regular expression");return this.indexOf(c,g||0)!==-1}});</p>
+<p class="p1">x("WeakMap",function(b){function c(d){this.g=(a+=Math.random()+1).toString();if(d){d=t(d);for(var e;!(e=d.next()).done;)e=e.value,this.set(e[0],e[1])}}function g(){}function h(d){var e=typeof d;return e==="object"&amp;&amp;d!==null||e==="function"}function l(d){if(!K(d,f)){var e=new g;u(d,f,{value:e})}}function m(d){var e=Object[d];e&amp;&amp;(Object[d]=function(k){if(k instanceof g)return k;Object.isExtensible(k)&amp;&amp;l(k);return e(k)})}if(function(){if(!b||!Object.seal)return!1;try{var d=Object.seal({}),e=Object.seal({}),</p>
+<p class="p1">k=new b([[d,2],[e,3]]);if(k.get(d)!=2||k.get(e)!=3)return!1;k.delete(d);k.set(e,4);return!k.has(d)&amp;&amp;k.get(e)==4}catch(p){return!1}}())return b;var f="$jscomp_hidden_"+Math.random();m("freeze");m("preventExtensions");m("seal");var a=0;c.prototype.set=function(d,e){if(!h(d))throw Error("Invalid WeakMap key");l(d);if(!K(d,f))throw Error("WeakMap key fail: "+d);d[f][this.g]=e;return this};c.prototype.get=function(d){return h(d)&amp;&amp;K(d,f)?d[f][this.g]:void 0};c.prototype.has=function(d){return h(d)&amp;&amp;K(d,</p>
+<p class="p1">f)&amp;&amp;K(d[f],this.g)};c.prototype.delete=function(d){return h(d)&amp;&amp;K(d,f)&amp;&amp;K(d[f],this.g)?delete d[f][this.g]:!1};return c});</p>
+<p class="p1">x("Map",function(b){function c(){var a={};return a.m=a.next=a.head=a}function g(a,d){var e=a[1];return J(function(){if(e){for(;e.head!=a[1];)e=e.m;for(;e.next!=e.head;)return e=e.next,{done:!1,value:d(e)};e=null}return{done:!0,value:void 0}})}function h(a,d){var e=d&amp;&amp;typeof d;e=="object"||e=="function"?m.has(d)?e=m.get(d):(e=""+ ++f,m.set(d,e)):e="p_"+d;var k=a[0][e];if(k&amp;&amp;K(a[0],e))for(a=0;a&lt;k.length;a++){var p=k[a];if(d!==d&amp;&amp;p.key!==p.key||d===p.key)return{id:e,list:k,index:a,entry:p}}return{id:e,</p>
+<p class="p1">list:k,index:-1,entry:void 0}}function l(a){this[0]={};this[1]=c();this.size=0;if(a){a=t(a);for(var d;!(d=a.next()).done;)d=d.value,this.set(d[0],d[1])}}if(function(){if(!b||typeof b!="function"||!b.prototype.entries||typeof Object.seal!="function")return!1;try{var a=Object.seal({x:4}),d=new b(t([[a,"s"]]));if(d.get(a)!="s"||d.size!=1||d.get({x:4})||d.set({x:4},"t")!=d||d.size!=2)return!1;var e=d.entries(),k=e.next();if(k.done||k.value[0]!=a||k.value[1]!="s")return!1;k=e.next();return k.done||k.value[0].x!=</p>
+<p class="p1">4||k.value[1]!="t"||!e.next().done?!1:!0}catch(p){return!1}}())return b;var m=new WeakMap;l.prototype.set=function(a,d){a=a===0?0:a;var e=h(this,a);e.list||(e.list=this[0][e.id]=[]);e.entry?e.entry.value=d:(e.entry={next:this[1],m:this[1].m,head:this[1],key:a,value:d},e.list.push(e.entry),this[1].m.next=e.entry,this[1].m=e.entry,this.size++);return this};l.prototype.delete=function(a){a=h(this,a);return a.entry&amp;&amp;a.list?(a.list.splice(a.index,1),a.list.length||delete this[0][a.id],a.entry.m.next=a.entry.next,</p>
+<p class="p1">a.entry.next.m=a.entry.m,a.entry.head=null,this.size--,!0):!1};l.prototype.clear=function(){this[0]={};this[1]=this[1].m=c();this.size=0};l.prototype.has=function(a){return!!h(this,a).entry};l.prototype.get=function(a){return(a=h(this,a).entry)&amp;&amp;a.value};l.prototype.entries=function(){return g(this,function(a){return[a.key,a.value]})};l.prototype.keys=function(){return g(this,function(a){return a.key})};l.prototype.values=function(){return g(this,function(a){return a.value})};l.prototype.forEach=</p>
+<p class="p1">function(a,d){for(var e=this.entries(),k;!(k=e.next()).done;)k=k.value,a.call(d,k[1],k[0],this)};l.prototype[Symbol.iterator]=l.prototype.entries;var f=0;return l});</p>
+<p class="p1">x("Set",function(b){function c(g){this.g=new Map;if(g){g=t(g);for(var h;!(h=g.next()).done;)this.add(h.value)}this.size=this.g.size}if(function(){if(!b||typeof b!="function"||!b.prototype.entries||typeof Object.seal!="function")return!1;try{var g=Object.seal({x:4}),h=new b(t([g]));if(!h.has(g)||h.size!=1||h.add(g)!=h||h.size!=1||h.add({x:4})!=h||h.size!=2)return!1;var l=h.entries(),m=l.next();if(m.done||m.value[0]!=g||m.value[1]!=g)return!1;m=l.next();return m.done||m.value[0]==g||m.value[0].x!=4||</p>
+<p class="p1">m.value[1]!=m.value[0]?!1:l.next().done}catch(f){return!1}}())return b;c.prototype.add=function(g){g=g===0?0:g;this.g.set(g,g);this.size=this.g.size;return this};c.prototype.delete=function(g){g=this.g.delete(g);this.size=this.g.size;return g};c.prototype.clear=function(){this.g.clear();this.size=0};c.prototype.has=function(g){return this.g.has(g)};c.prototype.entries=function(){return this.g.entries()};c.prototype.values=function(){return this.g.values()};c.prototype.keys=c.prototype.values;c.prototype[Symbol.iterator]=</p>
+<p class="p1">c.prototype.values;c.prototype.forEach=function(g,h){var l=this;this.g.forEach(function(m){return g.call(h,m,m,l)})};return c});(function(){function b(){return m?Promise.resolve(m):f?f:f=fetch("https://www.gstatic.com/bard-maui/resources/material-design-icon-names.804824289.json").then(function(a){if(!a.ok)throw Error("HTTP error! status: "+a.status+" fetching https://www.gstatic.com/bard-maui/resources/material-design-icon-names.804824289.json");return a.json()}).then(function(a){if(!Array.isArray(a))throw new TypeError("Fetched icon names from https://www.gstatic.com/bard-maui/resources/material-design-icon-names.804824289.json is not an array.");</p>
+<p class="p1">return m=a}).catch(function(a){console.error("IconChecker: Failed to load valid icon names from https://www.gstatic.com/bard-maui/resources/material-design-icon-names.804824289.json.",a);f=null;throw a;})}function c(a){var d,e,k,p;return I(new H(new B(function(n){switch(n.h){case 1:d=(a.textContent||"").trim();if(!d||a.classList.contains("js-replaced-missing-icon")&amp;&amp;d==="radio_button_unchecked")return n.return();e=window.getComputedStyle(a);if(e.display==="none"||e.visibility==="hidden")return n.return();</p>
+<p class="p1">n.l=2;var r=b();n.h=4;return{value:r};case 4:k=n.u;n.h=3;n.l=0;break;case 2:return n.l=0,n.i=null,console.warn('IconChecker: Skipping check for icon "'+d+'" as valid names could not be loaded.'),n.return();case 3:(p=k.includes(d))?a.classList.contains("js-replaced-missing-icon")&amp;&amp;a.classList.remove("js-replaced-missing-icon"):d==="radio_button_unchecked"&amp;&amp;a.classList.contains("js-replaced-missing-icon")||(a.textContent="radio_button_unchecked",a.classList.add("js-replaced-missing-icon")),n.h=0}})))}</p>
+<p class="p1">function g(a){a=a===void 0?document.body:a;a.querySelectorAll(l).forEach(function(d){c(d)})}function h(){b().catch(function(){});document.fonts.ready.then(function(){requestAnimationFrame(function(){g(document.body);(new MutationObserver(function(a){var d=new Set;a=t(a);for(var e=a.next();!e.done;e=a.next())if(e=e.value,e.type==="childList")e.addedNodes.forEach(function(p){p.nodeType===Node.ELEMENT_NODE&amp;&amp;(p.matches(l)&amp;&amp;d.add(p),p.querySelectorAll(l).forEach(function(n){d.add(n)}))});else if(e.type===</p>
+<p class="p1">"attributes"&amp;&amp;e.attributeName==="class"){var k=e.target;e.target.nodeType===Node.ELEMENT_NODE&amp;&amp;k.matches(l)&amp;&amp;d.add(k)}else e.type==="characterData"&amp;&amp;e.target.parentNode&amp;&amp;(e=e.target.parentNode,e.nodeType===Node.ELEMENT_NODE&amp;&amp;e.matches(l)&amp;&amp;d.add(e));d.size&gt;0&amp;&amp;setTimeout(function(){d.forEach(function(p){c(p)})},500)})).observe(document.body,{childList:!0,subtree:!0,attributes:!0,attributeFilter:["class"],characterData:!0})})}).catch(function(a){console.error("IconChecker: Font loading error. Scanning icons anyway.",</p>
+<p class="p1">a);requestAnimationFrame(function(){g(document.body)})})}var l=["material-icons","material-symbols-outlined","material-symbols-rounded","material-symbols-sharp"].map(function(a){return"."+a}).join(","),m=null,f=null;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",function(){h()}):h()})();}).call(this);</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;NaviTax Pro - Application Complète&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;amp;family=Fira+Code:wght@400;500&amp;amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.font-mono { font-family: 'Fira Code', monospace; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.tab-active { border-bottom: 2px solid #0ea5e9; color: #0284c7; background-color: #f0f9ff; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.tab-inactive { color: #64748b; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.tab-inactive:hover { background-color: #f1f5f9; color: #334155; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media print {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.no-print { display: none !important; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>body { background: white; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.print-only { display: block !important; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.container-main { box-shadow: none !important; border: none !important; width: 100% !important; max-width: none !important; padding: 0 !important; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.fade-in { animation: fadeIn 0.3s ease-out; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;style&gt;*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.relative{position:relative}.sticky{position:sticky}.top-0{top:0px}.top-16{top:4rem}.z-40{z-index:40}.z-50{z-index:50}.mx-1{margin-left:0.25rem;margin-right:0.25rem}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-10{margin-bottom:2.5rem}.mb-12{margin-bottom:3rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-5{margin-left:1.25rem}.mt-1{margin-top:0.25rem}.mt-3{margin-top:0.75rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-12{height:3rem}.h-16{height:4rem}.h-4{height:1rem}.h-48{height:12rem}.h-96{height:24rem}.min-h-screen{min-height:100vh}.w-12{width:3rem}.w-full{width:100%}.w-px{width:1px}.min-w-\[140px\]{min-width:140px}.max-w-3xl{max-width:48rem}.max-w-4xl{max-width:56rem}.max-w-7xl{max-width:80rem}.flex-1{flex:1 1 0%}.cursor-pointer{cursor:pointer}.resize-none{resize:none}.list-decimal{list-style-type:decimal}.grid-cols-5{grid-template-columns:repeat(5, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.space-y-2 &gt; :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-4 &gt; :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-6 &gt; :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.divide-y &gt; :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(1px * var(--tw-divide-y-reverse))}.divide-slate-100 &gt; :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(241 245 249 / var(--tw-divide-opacity, 1))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-none{border-radius:0px}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-b-4{border-bottom-width:4px}.border-l{border-left-width:1px}.border-t{border-top-width:1px}.border-amber-100{--tw-border-opacity:1;border-color:rgb(254 243 199 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-slate-900{--tw-border-opacity:1;border-color:rgb(15 23 42 / var(--tw-border-opacity, 1))}.bg-amber-50{--tw-bg-opacity:1;background-color:rgb(255 251 235 / var(--tw-bg-opacity, 1))}.bg-amber-500{--tw-bg-opacity:1;background-color:rgb(245 158 11 / var(--tw-bg-opacity, 1))}.bg-sky-100{--tw-bg-opacity:1;background-color:rgb(224 242 254 / var(--tw-bg-opacity, 1))}.bg-sky-600{--tw-bg-opacity:1;background-color:rgb(2 132 199 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-slate-50\/50{background-color:rgb(248 250 252 / 0.5)}.bg-slate-700{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-transparent{background-color:transparent}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.p-1{padding:0.25rem}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-20{padding-top:5rem;padding-bottom:5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-8{padding-top:2rem;padding-bottom:2rem}.pb-8{padding-bottom:2rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-\[10px\]{font-size:10px}.text-\[14px\]{font-size:14px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-light{font-weight:300}.font-medium{font-weight:500}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-none{line-height:1}.leading-relaxed{line-height:1.625}.tracking-tight{letter-spacing:-0.025em}.tracking-tighter{letter-spacing:-0.05em}.tracking-widest{letter-spacing:0.1em}.text-amber-700{--tw-text-opacity:1;color:rgb(180 83 9 / var(--tw-text-opacity, 1))}.text-amber-800{--tw-text-opacity:1;color:rgb(146 64 14 / var(--tw-text-opacity, 1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.text-purple-500{--tw-text-opacity:1;color:rgb(168 85 247 / var(--tw-text-opacity, 1))}.text-red-400{--tw-text-opacity:1;color:rgb(248 113 113 / var(--tw-text-opacity, 1))}.text-sky-400{--tw-text-opacity:1;color:rgb(56 189 248 / var(--tw-text-opacity, 1))}.text-sky-600{--tw-text-opacity:1;color:rgb(2 132 199 / var(--tw-text-opacity, 1))}.text-sky-700{--tw-text-opacity:1;color:rgb(3 105 161 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.opacity-10{opacity:0.1}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sky-900\/50{--tw-shadow-color:rgb(12 74 110 / 0.5);--tw-shadow:var(--tw-shadow-colored)}.outline-none{outline:2px solid transparent;outline-offset:2px}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-black:hover{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.hover\:bg-red-900\/20:hover{background-color:rgb(127 29 29 / 0.2)}.hover\:bg-sky-500:hover{--tw-bg-opacity:1;background-color:rgb(14 165 233 / var(--tw-bg-opacity, 1))}.hover\:bg-sky-700:hover{--tw-bg-opacity:1;background-color:rgb(3 105 161 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-700:hover{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.hover\:text-red-300:hover{--tw-text-opacity:1;color:rgb(252 165 165 / var(--tw-text-opacity, 1))}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-amber-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(245 158 11 / var(--tw-ring-opacity, 1))}.focus\:ring-emerald-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(16 185 129 / var(--tw-ring-opacity, 1))}.focus\:ring-purple-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(168 85 247 / var(--tw-ring-opacity, 1))}.focus\:ring-sky-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(14 165 233 / var(--tw-ring-opacity, 1))}@media (min-width: 768px){.md\:flex{display:flex}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:rounded-3xl{border-radius:1.5rem}.md\:p-16{padding:4rem}.md\:p-8{padding:2rem}}@media (min-width: 1024px){.lg\:col-span-1{grid-column:span 1 / span 1}.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}&lt;/style&gt;&lt;/head&gt;</p>
+<p class="p1">&lt;body class="min-h-screen flex flex-col"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- HEADER --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;header class="bg-slate-900 text-white shadow-xl no-print sticky top-0 z-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex items-center gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-sky-600 p-2 rounded-lg flex items-center justify-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="material-symbols-outlined text-white"&gt;flight_takeoff&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h1 class="font-bold text-lg leading-none tracking-tight"&gt;NaviTax &lt;span class="text-sky-400 font-light"&gt;Pro&lt;/span&gt;&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1"&gt;Personnel Navigant - France&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="hidden md:flex items-center bg-slate-800 rounded-lg p-1 border border-slate-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button onclick="saveData()" class="flex items-center gap-2 px-3 py-1.5 rounded hover:bg-slate-700 text-xs font-medium text-slate-300 transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="material-symbols-outlined text-base"&gt;save&lt;/span&gt; Sauvegarder</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="w-px h-4 bg-slate-700 mx-1"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="flex items-center gap-2 px-3 py-1.5 rounded hover:bg-slate-700 text-xs font-medium text-slate-300 transition cursor-pointer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="material-symbols-outlined text-base"&gt;folder_open&lt;/span&gt; Charger</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="file" id="file-load" class="hidden" accept=".json" onchange="loadData(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button onclick="resetApp()" class="text-red-400 hover:text-red-300 p-2 rounded hover:bg-red-900/20 transition" title="Réinitialiser"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="material-symbols-outlined"&gt;restart_alt&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- NAVIGATION TABS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;nav class="bg-white border-b border-slate-200 no-print sticky top-16 z-40"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="max-w-7xl mx-auto flex overflow-x-auto scroller-none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="btn-tab-rotations" onclick="switchTab('rotations')" class="tab-inactive flex-1 py-4 text-sm font-medium transition-all flex justify-center items-center gap-2 min-w-[140px]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="material-symbols-outlined"&gt;public&lt;/span&gt; Rotations</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="btn-tab-transport" onclick="switchTab('transport')" class="tab-inactive flex-1 py-4 text-sm font-medium transition-all flex justify-center items-center gap-2 min-w-[140px]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="material-symbols-outlined"&gt;commute&lt;/span&gt; IK &amp;amp; Divers</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="btn-tab-rapport" onclick="switchTab('rapport')" class="tab-inactive flex-1 py-4 text-sm font-medium transition-all flex justify-center items-center gap-2 min-w-[140px]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="material-symbols-outlined"&gt;assignment&lt;/span&gt; Rapport 1AK</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="btn-tab-code" onclick="switchTab('code')" class="tab-active flex-1 py-4 text-sm font-medium transition-all flex justify-center items-center gap-2 min-w-[140px]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="material-symbols-outlined text-sky-600"&gt;code&lt;/span&gt; Récupérer le Code</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/nav&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- MAIN WORKSPACE --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-8"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- VIEW 1: ROTATIONS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="view-rotations" class="fade-in space-y-6 hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="grid lg:grid-cols-3 gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Input Box --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="lg:col-span-1 space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="material-symbols-outlined text-sky-600"&gt;content_paste&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>Import Planning PDF</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;textarea id="import-area" class="w-full h-48 p-4 text-xs font-mono bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-500 outline-none resize-none mb-4" placeholder="Ouvrez votre PDF, faites Ctrl+A puis Ctrl+C, et collez ici..."&gt;&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button onclick="parseImport()" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="material-symbols-outlined"&gt;bolt&lt;/span&gt; Analyser le texte</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-[10px] text-slate-400 mt-3 text-center"&gt;Compatible avec la plupart des plannings (AF, TO, EJU...)&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Table --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="lg:col-span-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="font-bold text-slate-700"&gt;Liste des vols détectés&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button onclick="addRow()" class="text-xs bg-white border border-slate-200 px-3 py-1.5 rounded-lg hover:bg-slate-50 transition flex items-center gap-1 font-medium text-slate-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span class="material-symbols-outlined text-sm"&gt;add&lt;/span&gt; Ajouter manuel</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="overflow-x-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;table class="w-full text-sm text-left"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;thead class="text-[10px] text-slate-400 uppercase tracking-widest bg-slate-50 border-b border-slate-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;th class="px-6 py-4"&gt;Date&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;th class="px-6 py-4"&gt;Escale&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;th class="px-6 py-4 text-center"&gt;Nuits (ON)&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;th class="px-6 py-4 text-right"&gt;Déduction&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;th class="px-6 py-4 text-center"&gt;Actions&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tbody id="table-rotations" class="divide-y divide-slate-100"&gt;&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div id="empty-msg" class="py-20 text-center text-slate-400" style="display: block;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="material-symbols-outlined text-5xl mb-2 opacity-10"&gt;airplanemode_inactive&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-sm italic"&gt;Aucun vol pour le moment.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="text-xs font-bold text-slate-500 uppercase"&gt;Sous-total Rotations&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span id="subtotal-rot" class="text-xl font-black text-sky-700"&gt;0.00 €&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- VIEW 2: TRANSPORT &amp; DIVERS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="view-transport" class="fade-in space-y-6 hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- IK --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-amber-500 p-4 text-white flex items-center gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="material-symbols-outlined"&gt;directions_car&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h2 class="font-bold"&gt;Barème Kilométrique 2024&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="p-6 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="block text-[10px] font-bold text-slate-400 uppercase mb-2"&gt;Puissance du véhicule&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="grid grid-cols-5 gap-2" id="cv-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button onclick="setCV('3')" id="cv-3" class="cv-btn border py-2 rounded-lg text-xs font-bold hover:bg-slate-50"&gt;3CV&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button onclick="setCV('4')" id="cv-4" class="cv-btn border py-2 rounded-lg text-xs font-bold hover:bg-slate-50"&gt;4CV&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button onclick="setCV('5')" id="cv-5" class="cv-btn border py-2 rounded-lg text-xs font-bold bg-slate-900 text-white border-slate-900"&gt;5CV&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button onclick="setCV('6')" id="cv-6" class="cv-btn border py-2 rounded-lg text-xs font-bold hover:bg-slate-50"&gt;6CV&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button onclick="setCV('7')" id="cv-7" class="cv-btn border py-2 rounded-lg text-xs font-bold hover:bg-slate-50"&gt;7+CV&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="block text-[10px] font-bold text-slate-400 uppercase mb-2"&gt;Distance Annuelle (KM)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;input type="number" id="in-km" oninput="calculate()" class="w-full p-3 border border-slate-200 rounded-xl text-lg font-bold focus:ring-2 focus:ring-amber-500 outline-none" placeholder="0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="bg-amber-50 rounded-xl p-4 flex justify-between items-center border border-amber-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="text-xs font-bold text-amber-800"&gt;DÉDUCTION IK&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span id="res-ik" class="text-xl font-black text-amber-700"&gt;0.00 €&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Divers --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex items-center gap-3 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="material-symbols-outlined text-purple-500"&gt;dry_cleaning&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h2 class="font-bold text-lg"&gt;Frais Divers&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="block text-[10px] font-bold text-slate-400 uppercase mb-1"&gt;Blanchissage (Uniforme)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;input type="number" id="in-laundry" oninput="calculate()" class="w-full p-3 border border-slate-200 rounded-xl font-bold focus:ring-2 focus:ring-purple-500 outline-none" placeholder="0 €"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="block text-[10px] font-bold text-slate-400 uppercase mb-1"&gt;Cotisations &amp;amp; Assurances&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;input type="number" id="in-union" oninput="calculate()" class="w-full p-3 border border-slate-200 rounded-xl font-bold focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="0 €"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- VIEW 3: RAPPORT FINAL --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="view-rapport" class="fade-in hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="max-w-3xl mx-auto bg-white shadow-2xl rounded-none md:rounded-3xl border border-slate-200 overflow-hidden p-8 md:p-16 container-main"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="border-b-4 border-slate-900 pb-8 mb-10 flex justify-between items-end"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h1 class="text-4xl font-black text-slate-900 tracking-tighter uppercase"&gt;Frais Réels 2024&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-slate-500 font-medium"&gt;Synthèse pour déclaration fiscale (Case 1AK)&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="text-right no-print"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button onclick="window.print()" class="bg-slate-900 text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-black transition flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="material-symbols-outlined text-sm"&gt;print&lt;/span&gt; Imprimer</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="space-y-4 mb-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex justify-between items-center py-4 border-b border-slate-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-slate-500"&gt;Indemnités de Rotations (Repas/Découchés)&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span id="rep-rot" class="text-lg font-bold text-slate-800 font-mono"&gt;0.00 €&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex justify-between items-center py-4 border-b border-slate-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-slate-500"&gt;Frais de Transport (Barème IK)&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span id="rep-ik" class="text-lg font-bold text-slate-800 font-mono"&gt;0.00 €&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex justify-between items-center py-4 border-b border-slate-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-slate-500"&gt;Blanchissage &amp;amp; Divers&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span id="rep-div" class="text-lg font-bold text-slate-800 font-mono"&gt;0.00 €&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex justify-between items-center py-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-xl font-black text-slate-900 uppercase"&gt;Total à Déduire&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span id="rep-total" class="text-4xl font-black text-sky-600"&gt;0.00 €&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 text-[10px] text-slate-400 italic text-center leading-relaxed"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>Ce document est une simulation. Conservez vos plannings, factures et justificatifs pendant 3 ans.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- VIEW 4: SOURCE CODE --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="view-code" class="fade-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="max-w-4xl mx-auto space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex items-center gap-4 mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="material-symbols-outlined text-3xl"&gt;terminal&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h2 class="text-2xl font-bold text-slate-800"&gt;Code Source de l'Application&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-slate-500 text-sm"&gt;C'est ce code que vous devez copier pour enregistrer l'outil sur votre ordinateur.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="space-y-4 mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="font-bold text-slate-700 flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="material-symbols-outlined text-sm"&gt;help&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>Comment faire ?</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;ol class="text-sm text-slate-600 space-y-2 list-decimal ml-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Cliquez sur le bouton &lt;strong&gt;"Tout copier"&lt;/strong&gt; ci-dessous.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Sur votre ordinateur (Mac ou Windows), ouvrez le &lt;strong&gt;Bloc-notes&lt;/strong&gt; ou &lt;strong&gt;TextEdit&lt;/strong&gt;.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Collez le texte.&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Enregistrez le fichier sous le nom : &lt;code class="bg-slate-100 px-1 rounded font-bold text-sky-700"&gt;navitax.html&lt;/code&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/ol&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-700 shadow-2xl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="bg-slate-800 px-6 py-3 flex justify-between items-center border-b border-slate-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="text-xs font-mono text-slate-400"&gt;navitax.html (Code Complet)&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button onclick="copyFullSource()" class="bg-sky-600 hover:bg-sky-500 text-white text-[10px] font-bold px-4 py-1.5 rounded-full transition shadow-lg shadow-sky-900/50 flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span class="material-symbols-outlined text-[14px]"&gt;content_copy&lt;/span&gt; Tout copier</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;textarea id="source-code-area" readonly="" class="w-full h-96 p-6 bg-transparent text-emerald-400 font-mono text-xs outline-none scroller-none resize-none"&gt;&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- JS LOGIC --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- DATA ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let appData = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>rotations: [],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cv: '5',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>km: 0,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>laundry: 0,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>union: 0</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const AIRPORTS = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"JFK": { pays: "USA (New York)", taux: 299.75 },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"EWR": { pays: "USA (New York)", taux: 299.75 },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"LAX": { pays: "USA", taux: 280.00 },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"SFO": { pays: "USA", taux: 280.00 },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"YUL": { pays: "Canada", taux: 179.78 },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"HND": { pays: "Japon", taux: 196.41 },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"NRT": { pays: "Japon", taux: 196.41 },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"DXB": { pays: "Emirats", taux: 300.00 },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"SIN": { pays: "Singapour", taux: 200.00 },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"LHR": { pays: "UK", taux: 208.40, zone: 'MC' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"MAD": { pays: "Espagne", taux: 170.00, zone: 'MC' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"FCO": { pays: "Italie", taux: 170.00, zone: 'MC' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"FRA": { pays: "Allemagne", taux: 170.00, zone: 'MC' }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- NAVIGATION ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function switchTab(id) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>['rotations', 'transport', 'divers', 'rapport', 'code'].forEach(v =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const view = document.getElementById('view-' + v);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const btn = document.getElementById('btn-tab-' + v);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if(view) view.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if(btn) btn.className = 'tab-inactive flex-1 py-4 text-sm font-medium transition-all flex justify-center items-center gap-2 min-w-[140px]';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('view-' + id).classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('btn-tab-' + id).className = 'tab-active flex-1 py-4 text-sm font-medium transition-all flex justify-center items-center gap-2 min-w-[140px]';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if(id === 'rapport') updateReport();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if(id === 'code') populateSourceCode();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- ROTATIONS ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function parseImport() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const text = document.getElementById('import-area').value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if(!text.trim()) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const lines = text.split('\n');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let found = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const dateRegex = /(\d{2}[\/-]\d{2})/g;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const codeRegex = /\b([A-Z]{3})\b/g;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>lines.forEach(line =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const dates = line.match(dateRegex);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const codes = line.match(codeRegex);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if(dates &amp;&amp; codes &amp;&amp; codes.length &gt;= 2) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>let esc = null;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>for(let c of codes) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>if(AIRPORTS[c]) { esc = c; break; }</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if(!esc &amp;&amp; !['CDG', 'ORY', 'AFR', 'ARR', 'DEP'].includes(codes[1])) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>esc = codes[1];</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if(esc) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const info = AIRPORTS[esc] || { pays: esc, taux: 170, zone: 'LC' };</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const on = 1;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>let val = (info.zone === 'MC') ? Math.max(0, (on - 0.5) * info.taux) : on * info.taux;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>appData.rotations.push({</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>date: dates[0],</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>code: esc,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>pays: info.pays,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>on: on,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>taux: info.taux,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>zone: info.zone || 'LC',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>total: val</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>found++;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if(found &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderTable();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>calculate();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('import-area').value = "";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>alert(found + " vols détectés !");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>alert("Aucun vol reconnu. Assurez-vous d'avoir des dates (JJ/MM) et codes (JFK).");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function addRow() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const code = prompt("Code Escale (ex: JFK) :", "JFK") || "???";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const info = AIRPORTS[code.toUpperCase()] || { pays: code.toUpperCase(), taux: 170, zone: 'LC' };</p>
+<p class="p1"><span class="Apple-converted-space">            </span>appData.rotations.push({</p>
+<p class="p1"><span class="Apple-converted-space">                </span>date: "Manuel",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>code: code.toUpperCase(),</p>
+<p class="p1"><span class="Apple-converted-space">                </span>pays: info.pays,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>on: 1,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>taux: info.taux,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>zone: info.zone || 'LC',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>total: info.taux</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderTable();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>calculate();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderTable() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const tbody = document.getElementById('table-rotations');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>tbody.innerHTML = "";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('empty-msg').style.display = appData.rotations.length ? "none" : "block";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>appData.rotations.forEach((r, i) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const tr = document.createElement('tr');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tr.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;td class="px-6 py-4 font-medium text-slate-800"&gt;${r.date}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;td class="px-6 py-4"&gt;&lt;span class="font-bold text-sky-900"&gt;${r.code}&lt;/span&gt; &lt;span class="text-[10px] text-slate-400"&gt;${r.pays}&lt;/span&gt;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;td class="px-6 py-4 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="number" step="0.5" value="${r.on}" onchange="updateRow(${i}, this.value)" class="w-12 text-center border rounded"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;td class="px-6 py-4 text-right font-mono font-bold text-slate-700"&gt;${r.total.toFixed(2)} €&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;td class="px-6 py-4 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button onclick="delRow(${i})" class="text-slate-300 hover:text-red-500"&gt;&lt;span class="material-symbols-outlined text-sm"&gt;delete&lt;/span&gt;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tbody.appendChild(tr);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateRow(idx, val) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const r = appData.rotations[idx];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>r.on = parseFloat(val) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>r.total = (r.zone === 'MC') ? Math.max(0, (r.on - 0.5) * r.taux) : r.on * r.taux;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderTable();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>calculate();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function delRow(idx) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>appData.rotations.splice(idx, 1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderTable();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>calculate();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- CALCULS ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function setCV(cv) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>appData.cv = cv;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.cv-btn').forEach(b =&gt; b.className = 'cv-btn border py-2 rounded-lg text-xs font-bold hover:bg-slate-50');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('cv-' + cv).className = 'cv-btn bg-slate-900 text-white border-slate-900 rounded-xl py-3 text-sm font-medium shadow-lg transition';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>calculate();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function calculate() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>appData.km = parseFloat(document.getElementById('in-km').value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>appData.laundry = parseFloat(document.getElementById('in-laundry').value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>appData.union = parseFloat(document.getElementById('in-union').value) || 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const sumRot = appData.rotations.reduce((a, b) =&gt; a + b.total, 0);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ikCoeffs = { '3':0.37, '4':0.407, '5':0.427, '6':0.447, '7':0.47 };</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ik = appData.km * (ikCoeffs[appData.cv] || 0.427);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const div = appData.laundry + appData.union;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('subtotal-rot').innerText = sumRot.toFixed(2) + " €";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('res-ik').innerText = ik.toFixed(2) + " €";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('sidebar-total').innerText = Math.round(sumRot + ik + div) + " €";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return { sumRot, ik, div, total: sumRot + ik + div };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateReport() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const res = calculate();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('report-date').innerText = new Date().toLocaleDateString('fr-FR');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('rep-rot').innerText = res.sumRot.toFixed(2) + " €";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('rep-ik').innerText = res.ik.toFixed(2) + " €";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('rep-div').innerText = res.div.toFixed(2) + " €";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('rep-total').innerText = res.total.toFixed(2) + " €";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- PERSISTENCE ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function saveData() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const blob = new Blob([JSON.stringify(appData)], { type: 'application/json' });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const url = URL.createObjectURL(blob);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const a = document.createElement('a');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>a.href = url;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>a.download = "navitax_data.json";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>a.click();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function loadData(input) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const file = input.files[0];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if(!file) return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const reader = new FileReader();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>reader.onload = e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>appData = JSON.parse(e.target.result);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('in-km').value = appData.km || "";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('in-laundry').value = appData.laundry || "";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('in-union').value = appData.union || "";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setCV(appData.cv || '5');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderTable();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>calculate();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p1"><span class="Apple-converted-space">            </span>reader.readAsText(file);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function resetApp() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if(confirm("Tout effacer ?")) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>appData = { rotations: [], cv: '5', km: 0, laundry: 0, union: 0 };</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('in-km').value = "";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderTable();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>calculate();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- SOURCE CODE RECOVERY ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function populateSourceCode() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Get the current document's outerHTML</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const source = "&lt;!DOCTYPE html&gt;\n" + document.documentElement.outerHTML;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('source-code-area').value = source;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function copyFullSource() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const area = document.getElementById('source-code-area');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>area.select();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.execCommand('copy');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>alert("CODE COPIÉ ! Ouvrez le Bloc-notes, collez et enregistrez en 'navitax.html'.");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.onload = function() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderTable();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>calculate();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/body&gt;&lt;/html&gt;</p>
+</body>
+</html>

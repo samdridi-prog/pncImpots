@@ -109,8 +109,11 @@ def extraire_donnees_pdf(pdf_file):
     try:
         with pdfplumber.open(pdf_file) as pdf:
             for page in pdf.pages:
-                text = page.extract_text()
-                if not text: continue
+                text = page.extract_text(layout=False)
+                if not text:
+                    page.flush_cache()
+                    continue
+                
                 text_upper = text.upper()
                 mois_page = "INCONNU"
                 
@@ -119,31 +122,17 @@ def extraire_donnees_pdf(pdf_file):
                     try:
                         idx = int(match_periode.group(1)) - 1
                         if 0 <= idx < 12: mois_page = LISTE_MOIS[idx]
-                    except: pass
-                if mois_page == "INCONNU":
-                    for m in LISTE_MOIS:
-                        if re.search(rf"\b{m.upper()}\b", text_upper): mois_page = m; break
+                    except: 
+                        pass
                 
-                if mois_page == "INCONNU": continue
-                if mois_page not in resultats: resultats[mois_page] = {'net': 0.0, 'ind_non': 0.0, 'ind_imp': 0.0, 'trans': 0.0}
+                # ... garde ton code d'extraction ici ...
 
-                for line in text_upper.split('\n'):
-                    clean_line = line.strip()
-                    if "NET A PAYER AVANT IMPÔT" in clean_line:
-                        m = re.findall(r"([\d\s]+[.,]\d{2})", clean_line)
-                        if m: 
-                            val = clean_montant(m[-1])
-                            if val > 500: resultats[mois_page]['net'] = val
-                    elif any(k in clean_line for k in ["IR EXON", "IND REPAS", "IND.REPAS", "PRIME REPAS"]) and "NON EXON" not in clean_line:
-                        m = re.findall(r"([\d\s]+[.,]\d{2})", clean_line)
-                        if m: resultats[mois_page]['ind_non'] += clean_montant(m[-1])
-                    elif "IR NON EXON" in clean_line:
-                        m = re.findall(r"([\d\s]+[.,]\d{2})", clean_line)
-                        if m: resultats[mois_page]['ind_imp'] += clean_montant(m[-1])
-                    elif "FRAIS REELS TRANSP" in clean_line or "IND KILOM" in clean_line:
-                        m = re.findall(r"([\d\s]+[.,]\d{2})", clean_line)
-                        if m: resultats[mois_page]['trans'] += clean_montant(m[-1])
-    except Exception as e: print(f"Erreur Paie PDF: {e}")
+                # On vide la mémoire de la page traitée
+                page.flush_cache()
+                
+    except Exception as e:
+        print(f"Erreur : {e}")
+        
     return resultats
 
 def extraire_rotations_pdf(pdf_file, data_transport, dist_base):

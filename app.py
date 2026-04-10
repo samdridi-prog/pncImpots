@@ -113,7 +113,6 @@ def extraire_donnees_pdf(pdf_file):
                 if not text:
                     page.flush_cache()
                     continue
-                
                 text_upper = text.upper()
                 mois_page = "INCONNU"
                 
@@ -122,17 +121,34 @@ def extraire_donnees_pdf(pdf_file):
                     try:
                         idx = int(match_periode.group(1)) - 1
                         if 0 <= idx < 12: mois_page = LISTE_MOIS[idx]
-                    except: 
-                        pass
+                    except: pass
+                if mois_page == "INCONNU":
+                    for m in LISTE_MOIS:
+                        if re.search(rf"\b{m.upper()}\b", text_upper): mois_page = m; break
                 
-                # ... garde ton code d'extraction ici ...
+                if mois_page == "INCONNU":
+                    page.flush_cache()
+                    continue
+                if mois_page not in resultats: resultats[mois_page] = {'net': 0.0, 'ind_non': 0.0, 'ind_imp': 0.0, 'trans': 0.0}
 
-                # On vide la mémoire de la page traitée
+                for line in text_upper.split('\n'):
+                    clean_line = line.strip()
+                    if "NET A PAYER AVANT IMPÔT" in clean_line:
+                        m = re.findall(r"([\d\s]+[.,]\d{2})", clean_line)
+                        if m: 
+                            val = clean_montant(m[-1])
+                            if val > 500: resultats[mois_page]['net'] = val
+                    elif any(k in clean_line for k in ["IR EXON", "IND REPAS", "IND.REPAS", "PRIME REPAS"]) and "NON EXON" not in clean_line:
+                        m = re.findall(r"([\d\s]+[.,]\d{2})", clean_line)
+                        if m: resultats[mois_page]['ind_non'] += clean_montant(m[-1])
+                    elif "IR NON EXON" in clean_line:
+                        m = re.findall(r"([\d\s]+[.,]\d{2})", clean_line)
+                        if m: resultats[mois_page]['ind_imp'] += clean_montant(m[-1])
+                    elif "FRAIS REELS TRANSP" in clean_line or "IND KILOM" in clean_line:
+                        m = re.findall(r"([\d\s]+[.,]\d{2})", clean_line)
+                        if m: resultats[mois_page]['trans'] += clean_montant(m[-1])
                 page.flush_cache()
-                
-    except Exception as e:
-        print(f"Erreur : {e}")
-        
+    except Exception as e: print(f"Erreur Paie PDF: {e}")
     return resultats
 
 def extraire_rotations_pdf(pdf_file, data_transport, dist_base):
@@ -146,28 +162,24 @@ def extraire_rotations_pdf(pdf_file, data_transport, dist_base):
     try:
         with pdfplumber.open(pdf_file) as pdf:
             for page in pdf.pages:
-                text = page.extract_text()
-                if not text: continue
+                text = page.extract_text(layout=False)
+                if not text:
+                    page.flush_cache()
+                    continue
                 text_upper = text.upper()
                 
                 if "FEUILLE HORAIRE" not in text_upper:
+                    page.flush_cache()
                     continue 
                 
-                # --- LE MUR DU HAUT ---
-                # On coupe au grand titre : la date "Edité le..." disparaît avec tout ce qui est au-dessus
                 if "FEUILLE HORAIRE D'ACTIVITE" in text_upper:
                     text_upper = text_upper.split("FEUILLE HORAIRE D'ACTIVITE")[-1]
                 
-                # --- LE MUR DU BAS ---
-                # On coupe aux tableaux suivants pour ne jamais lire les frais ou les décomptes
                 if "FEUILLE DE DECOMPTE" in text_upper:
                     text_upper = text_upper.split("FEUILLE DE DECOMPTE")[0]
                 if "FRAIS DE DEPLACEMENT" in text_upper:
                     text_upper = text_upper.split("FRAIS DE DEPLACEMENT")[0]
                 
-                print("\n--- [DEBUG] ANALYSE D'UNE NOUVELLE PAGE FEUILLE HORAIRE ---")
-                
-                # Nettoyage des caractères parasites restants (si la machine lit mal)
                 lignes_utiles = []
                 for l in text_upper.split('\n'):
                     ligne_propre = l.replace(" ", "").replace("É", "E").replace("È", "E").replace("Û", "U")
@@ -178,7 +190,6 @@ def extraire_rotations_pdf(pdf_file, data_transport, dist_base):
                 text_clean_mois = '\n'.join(lignes_utiles).replace('É', 'E').replace('Û', 'U')
                 current_month = "Inconnu"
                 
-                # Recherche du mois (à l'envers, pour sécuriser la fin de l'année)
                 for m in reversed(LISTE_MOIS):
                     mois_format = m.upper().replace('É', 'E').replace('Û', 'U')
                     if re.search(rf"\b{mois_format}\s*20\d\d\b", text_clean_mois):
@@ -191,8 +202,6 @@ def extraire_rotations_pdf(pdf_file, data_transport, dist_base):
                             current_month = m
                             break
                             
-                print(f"[DEBUG] Mois détecté : {current_month}")
-                
                 lines = text_clean_mois.split('\n')
                 
                 for line in lines:
@@ -201,22 +210,17 @@ def extraire_rotations_pdf(pdf_file, data_transport, dist_base):
                         if code in [m.upper() for m in LISTE_MOIS]:
                             continue
                             
-                        # PRIORITÉ : Les Activités Sol 
                         if code in REF_ACTIVITES:
-                            # CORRECTION DU PIPE : (?:\|)? permet de tolérer la barre verticale si le PDF l'invente
                             dates_vols = re.findall(r'\b(0?[1-9]|[12][0-9]|3[01])\s*(?:\|)?\s*(?:[01][0-9]|2[0-3])[.:][0-9]{2}\b', line)
                             if dates_vols: jour_dep = int(dates_vols[0])
                             else:
                                 jours = re.findall(r'\b(0?[1-9]|[12][0-9]|3[01])\b', line)
                                 jour_dep = int(jours[0]) if jours else 1
                             
-                            print(f"[DEBUG] ACTIVITÉ TROUVÉE : {code} | Jour calculé : {jour_dep} | Ligne brute : {line.strip()}")
-                            
                             doublon = False
                             for r in rotations:
                                 if r['mois'] == current_month and r['arrivee'] == code and r['jour_dep'] == jour_dep:
                                     doublon = True
-                                    print(f"[DEBUG] -> Rejetée : Doublon détecté.")
                                     break
                                     
                             if not doublon:
@@ -230,22 +234,17 @@ def extraire_rotations_pdf(pdf_file, data_transport, dist_base):
                                     'ville': 'Base', 'pays': 'France', 'taux': 0.0
                                 })
                                 
-                        # ENSUITE : Les vols normaux (IATA)
                         elif code in REF_IATA and code not in EXCLUSIONS:
-                            # CORRECTION DU PIPE : Tolérance de la barre verticale
                             dates_vols = re.findall(r'\b(0?[1-9]|[12][0-9]|3[01])\s*(?:\|)?\s*(?:[01][0-9]|2[0-3])[.:][0-9]{2}\b', line)
                             if dates_vols: jour_dep = int(dates_vols[0])
                             else:
                                 jours = re.findall(r'\b(0?[1-9]|[12][0-9]|3[01])\b', line)
                                 jour_dep = int(jours[0]) if jours else 1
                             
-                            print(f"[DEBUG] VOL TROUVÉ : {code} | Jour calculé : {jour_dep} | Ligne brute : {line.strip()}")
-                            
                             doublon = False
                             for r in rotations:
                                 if r['mois'] == current_month and r['arrivee'] == code and abs(r['jour_dep'] - jour_dep) <= 4:
                                     doublon = True
-                                    print(f"[DEBUG] -> Rejeté : Doublon détecté (Écart <= 4 jours).")
                                     break
                             
                             if not doublon:
@@ -258,60 +257,39 @@ def extraire_rotations_pdf(pdf_file, data_transport, dist_base):
                                     'nb_jours': 3, 'total': 3 * info['forfait'], 'km': km,
                                     'ville': info['ville'], 'pays': info['pays'], 'taux': info['forfait']
                                 })
+                page.flush_cache()
                         
     except Exception as e:
         print(f"Erreur extraction rotations : {e}")
 
-    # ==========================================
-    # --- LE NETTOYEUR (Règle de la Réserve) ---
-    # ==========================================
     if rotations:
-        # 1. On trie chronologiquement par jour de départ
         rotations.sort(key=lambda x: x['jour_dep'])
-        
-        # 2. On compare la ligne N avec la ligne N+1
         for i in range(len(rotations) - 1):
             ligne_actuelle = rotations[i]
             ligne_suivante = rotations[i+1]
-            
-            # Si la date de l'activité (ex: Réserve) est EGALE à la date de l'activité suivante
             if ligne_actuelle['jour_dep'] == ligne_suivante['jour_dep']:
-                # C'est une réserve déclenchée : on annule son indemnité kilométrique
                 ligne_actuelle['km'] = 0
-                print(f"[DEBUG] NETTOYEUR : Réserve déclenchée le {ligne_actuelle['jour_dep']}. KM de la réserve mis à 0.")
-    # ==========================================
-    
     return rotations
 
 def extraire_montant_attestation(pdf_file):
     try:
         with pdfplumber.open(pdf_file) as pdf:
             for page in pdf.pages:
-                text = page.extract_text()
-                if not text: continue
-                
-                # 1. On vérifie si on est sur la bonne page (Titre spécifique)
-                # On utilise re.IGNORECASE car le PDF peut varier (accents, majuscules)
+                text = page.extract_text(layout=False)
+                if not text:
+                    page.flush_cache()
+                    continue
                 titre_cible = r"ATTESTATION DE DECOMPTE DES NUITEES POUR L'ANNEE"
                 if re.search(titre_cible, text, re.IGNORECASE):
-                    print("[DEBUG] Page 'Attestation de décompte' identifiée !")
-
-                    # 2. Une fois la page trouvée, on cherche le montant
-                    # Le montant est souvent après "s'élève à" ou "Total :"
                     match = re.search(r"s'élève à\s*([\d\s]+[.,]\d{2})", text, re.IGNORECASE)
-                    
                     if match:
                         montant_final = clean_montant(match.group(1))
-                        print(f"[DEBUG] Montant extrait : {montant_final} €")
+                        page.flush_cache()
                         return montant_final
-                        
+                page.flush_cache()
     except Exception as e:
         print(f"Erreur lors de l'extraction de l'attestation : {e}")
-    
     return 0.0
-# ==========================================
-# 4. CONTRÔLEUR PRINCIPAL (ROUTES)
-# ==========================================
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -325,7 +303,6 @@ def index():
 
     if request.method == 'POST':
         action = request.form.get('action')
-        
         if request.form.get('current_data'): data = json.loads(request.form.get('current_data'))
         if request.form.get('current_revenus'): revenus = json.loads(request.form.get('current_revenus'))
         if request.form.get('current_lignes'): lignes = json.loads(request.form.get('current_lignes'))
@@ -340,30 +317,19 @@ def index():
             for key in ['annee', 'nom', 'prenom', 'fonction', 'base', 'regime', 'email', 'num_fiscal', 'adr_rue', 'adr_cp', 'adr_ville', 'transport_mode', 'dist_base', 'cv']:
                 data[key] = request.form.get(key)
             if data.get('nom'): data['nom'] = data['nom'].upper()
-            
-            # --- NOUVEAU : MISE À JOUR DYNAMIQUE DES KILOMÈTRES ---
             mode_transp = data.get('transport_mode')
             dist_b = float(data.get('dist_base') or 0)
-            
             for l in lignes:
                 if mode_transp == 'Voiture':
                     code = l.get('arrivee', '')
-                    # Si c'est une activité issue du dictionnaire (ex: SST, VIS...)
                     if code in REF_ACTIVITES:
                         if REF_ACTIVITES[code].get('genere_km') == 'OUI':
                             l['km'] = dist_b * 2 * l.get('nb_jours', 1)
-                        else:
-                            l['km'] = 0
-                    # Si c'est une activité saisie manuellement (Sol, Réserve)
+                        else: l['km'] = 0
                     elif l.get('mode') in ['SOL', 'RESERVE']:
                         l['km'] = dist_b * 2 * l.get('nb_jours', 1)
-                    # Si c'est un vol classique (LC ou MC) = 1 aller-retour
-                    else:
-                        l['km'] = dist_b * 2
-                else:
-                    # Si transport en commun ou train, on remet les km à zéro
-                    l['km'] = 0
-            # ------------------------------------------------------
+                    else: l['km'] = dist_b * 2
+                else: l['km'] = 0
             step = 2
             
         elif action == 'delete_revenu':
@@ -383,17 +349,12 @@ def index():
                     if f.filename == '': continue
                     file_content = f.read()
                     pdf_list = []
-                    # S'il y a un ZIP, on l'ouvre et on prend tous les PDF dedans
                     if f.filename.lower().endswith('.zip'):
                         with zipfile.ZipFile(io.BytesIO(file_content)) as thezip:
                             for zipinfo in thezip.infolist():
                                 if zipinfo.filename.lower().endswith('.pdf'):
-                                    with thezip.open(zipinfo) as thefile:
-                                        pdf_list.append(io.BytesIO(thefile.read()))
-                    else:
-                        pdf_list.append(io.BytesIO(file_content))
-                    
-                    # On analyse chaque PDF trouvé
+                                    with thezip.open(zipinfo) as thefile: pdf_list.append(io.BytesIO(thefile.read()))
+                    else: pdf_list.append(io.BytesIO(file_content))
                     for pdf_io in pdf_list:
                         extracted = extraire_donnees_pdf(pdf_io)
                         if not extracted: upload_error = True
@@ -418,11 +379,8 @@ def index():
                         with zipfile.ZipFile(io.BytesIO(file_content)) as thezip:
                             for zipinfo in thezip.infolist():
                                 if zipinfo.filename.lower().endswith('.pdf'):
-                                    with thezip.open(zipinfo) as thefile:
-                                        pdf_list.append(io.BytesIO(thefile.read()))
-                    else:
-                        pdf_list.append(io.BytesIO(file_content))
-                    
+                                    with thezip.open(zipinfo) as thefile: pdf_list.append(io.BytesIO(thefile.read()))
+                    else: pdf_list.append(io.BytesIO(file_content))
                     for pdf_io in pdf_list:
                         mode_transp = data.get('transport_mode')
                         dist_b = float(data.get('dist_base') or 0)
@@ -431,7 +389,6 @@ def index():
                         pdf_io.seek(0)
                         att_val = extraire_montant_attestation(pdf_io)
                         if att_val > 0: data['montant_attestation'] = att_val
-
                     lignes.sort(key=lambda x: (LISTE_MOIS.index(x['mois']) if x['mois'] in LISTE_MOIS else 99, x['jour_dep']))
             step = 2
 
@@ -441,14 +398,11 @@ def index():
                 regime_ligne = request.form.get('mode_act', 'LC')
                 j_dep = int(request.form.get('jour_dep'))
                 j_arr = int(request.form.get('jour_arr'))
-                
                 nb_jours = (j_arr - j_dep + 1) if j_arr >= j_dep else (31 - j_dep + j_arr + 1)
                 if nb_jours < 1: nb_jours = 1
-
                 if regime_ligne in ['SOL', 'RESERVE']:
                     km = float(data.get('dist_base') or 0) * 2 * nb_jours if (data.get('transport_mode') == 'Voiture' and regime_ligne == 'SOL') else 0
                     lignes.append({'mois': mois_act, 'mode': regime_ligne, 'jour_dep': j_dep, 'jour_arr': j_arr, 'arrivee': regime_ligne, 'details': f"Activité {regime_ligne.capitalize()}", 'nb_jours': nb_jours, 'total': 0.0, 'km': km, 'ville': 'Base', 'pays': 'France', 'taux': 0.0})
-                    
                 elif regime_ligne == 'MC':
                     total_rotation = 0
                     escales_data = [] 
@@ -466,8 +420,7 @@ def index():
                             escales_data.append({'etape': f'Nuit {i}', 'code': iata_code, 'ville': info['ville'], 'pays': info['pays'], 'taux': info['forfait'], 'coef': coef, 'total': amount})
                     km = float(data.get('dist_base') or 0) * 2 if data.get('transport_mode') == 'Voiture' else 0
                     lignes.append({'mois': mois_act, 'mode': 'MC', 'jour_dep': j_dep, 'jour_arr': j_arr, 'escales': escales_data, 'nb_jours': nb_jours, 'total': total_rotation, 'km': km, 'ville': 'Multi', 'pays': 'Zone Euro', 'taux': TAUX_FRANCE_MC})
-
-                else: # LC
+                else: 
                     code = request.form.get('iata_arrivee', '').strip().upper()
                     if code in REF_IATA:
                         info = REF_IATA[code]
@@ -489,57 +442,36 @@ def index():
                         if 'Nuit 3' in esc['etape']: form_state['iata_3'] = esc['code']
             except: pass
             step = 2
-        
         elif action == 'delete_rotation':
             try: del lignes[int(request.form.get('line_index'))]
             except: pass
             step = 2
-
         elif action == 'clear_rotations':
             lignes = []
             step = 2
-
         elif action == 'view_report':
             data['cotis'] = float(request.form.get('cotis') or 0)
             data['uniforme'] = float(request.form.get('uniforme') or 0)
             data['bureau'] = float(request.form.get('bureau') or 0)
             data['autre'] = float(request.form.get('autre') or 0)
-            
-            # --- LA CORRECTION EST ICI ---
-            # On récupère la valeur du champ "montant_attestation" envoyé par l'étape 4
             val_att = request.form.get('montant_attestation')
-            if val_att is not None:
-                data['montant_attestation'] = float(val_att or 0)
-            
+            if val_att is not None: data['montant_attestation'] = float(val_att or 0)
             data['total_frais_divers'] = data['cotis'] + data['uniforme'] + data['bureau'] + data['autre']
             step = 5
-        
         elif action == 'validate_force': step = 6 
         elif action == 'cancel_back': step = 4 
 
-    # ==========================================
-    # CALCULS GLOBAUX POUR LE TEMPLATE
-    # ==========================================
     total_jours = sum(l.get('nb_jours', 0) for l in lignes)
     total_indemnite_rotations = sum(l.get('total', 0) for l in lignes)
     total_km_annee = sum(l.get('km', 0) for l in lignes)
-    
     total_km_valeur = 0
-    if data.get('transport_mode') == 'Voiture' and data.get('cv'):
-        total_km_valeur = calculer_frais_km(data.get('cv'), total_km_annee)
-    
-    sum_net = sum(r['net'] for r in revenus)
-    sum_ind_imp = sum(r['ind_imp'] for r in revenus)
-    sum_ind_non = sum(r['ind_non'] for r in revenus)
-    sum_trans = sum(r['trans'] for r in revenus)
-    total_rev_global = sum(r['total'] for r in revenus)
-    total_revenus = total_rev_global + float(data.get('montant_attestation', 0.0))
+    if data.get('transport_mode') == 'Voiture' and data.get('cv'): total_km_valeur = calculer_frais_km(data.get('cv'), total_km_annee)
+    sum_net = sum(r['net'] for r in revenus); sum_ind_imp = sum(r['ind_imp'] for r in revenus)
+    sum_ind_non = sum(r['ind_non'] for r in revenus); sum_trans = sum(r['trans'] for r in revenus)
+    total_rev_global = sum(r['total'] for r in revenus); total_revenus = total_rev_global + float(data.get('montant_attestation', 0.0))
     grand_total = total_indemnite_rotations + total_km_valeur + float(data.get('total_frais_divers', 0))
-
     months_count = len(set(l['mois'] for l in lignes))
-    
-    next_month_rev = LISTE_MOIS[0]
-    next_month_act = LISTE_MOIS[0]
+    next_month_rev = LISTE_MOIS[0]; next_month_act = LISTE_MOIS[0]
     if revenus:
         try: next_month_rev = LISTE_MOIS[LISTE_MOIS.index(revenus[-1]['mois'])+1] if LISTE_MOIS.index(revenus[-1]['mois'])+1 < 12 else LISTE_MOIS[0]
         except: pass
@@ -547,12 +479,10 @@ def index():
         try: next_month_act = LISTE_MOIS[LISTE_MOIS.index(lignes[-1]['mois'])] 
         except: pass
     if revenu_form_state: next_month_rev = revenu_form_state.get('mois')
-
     try:
         csv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), CSV_IATA_NAME)
         date_bareme = datetime.fromtimestamp(os.path.getmtime(csv_path)).strftime('%d/%m/%Y')
-    except:
-        date_bareme = "Inconnue"
+    except: date_bareme = "Inconnue"
 
     return render_template('index.html', 
                            step=step, data=data, revenus=revenus, lignes=lignes, 
@@ -560,18 +490,14 @@ def index():
                            total_jours=total_jours, total_indemnite_rotations=total_indemnite_rotations,
                            total_revenus=total_revenus, count_rev=len(revenus),
                            total_km_annee=total_km_annee, total_km_valeur=total_km_valeur, 
-                           months_count=months_count,
-                           total_rev_net=sum_net, total_rev_ind_imp=sum_ind_imp,
+                           months_count=months_count, total_rev_net=sum_net, total_rev_ind_imp=sum_ind_imp,
                            total_rev_ind_non=sum_ind_non, total_rev_trans=sum_trans, total_rev_global=total_rev_global,
                            taken_months_rev=[r['mois'] for r in revenus], next_month_rev=next_month_rev,
                            next_month_act=next_month_act, error_rotation=error_rotation,
                            grand_total=grand_total, today=today, date_bareme=date_bareme,
-                           last_edited_month=last_edited_month,
-                           sum_net=sum_net, sum_ind_imp=sum_ind_imp, sum_ind_non=sum_ind_non, sum_trans=sum_trans,
-                           all_months=LISTE_MOIS,
-                           data_json=json.dumps(data), revenus_json=json.dumps(revenus),
-                           lignes_json=json.dumps(lignes))
+                           last_edited_month=last_edited_month, sum_net=sum_net, sum_ind_imp=sum_ind_imp, 
+                           sum_ind_non=sum_ind_non, sum_trans=sum_trans, all_months=LISTE_MOIS,
+                           data_json=json.dumps(data), revenus_json=json.dumps(revenus), lignes_json=json.dumps(lignes))
 
 if __name__ == '__main__':
-    print(f"✈️ Backend démarré proprement ! Connectez-vous sur : http://{get_ip()}:5000")
-    app.run(host='0.0.0.0', debug=True, port=5000)
+    app.run(host='0.0.0.0', debug=False, port=5000)

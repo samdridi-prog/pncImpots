@@ -1,4 +1,6 @@
 Flask
+pdfplumber
 PyPDF2
+pycryptodome
 pandas
 gunicorn

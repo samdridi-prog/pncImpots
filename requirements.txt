@@ -1,6 +1,9 @@
 Flask
+pymupdf
 pdfplumber
 PyPDF2
 pycryptodome
 pandas
+Pillow
+openpyxl
 gunicorn

@@ -1,0 +1,924 @@
+{% extends 'base.html' %}
+
+{% block login_content %}
+    {% if step == 'login' %}
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="logo-circle"><svg class="abstract-plane" viewBox="0 0 24 24"><path d="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z" /></svg></div>
+            <div class="login-title">PORTAIL NAVIGANT</div>
+            <div class="login-sub">ACCÈS SÉCURISÉ MEMBRE PN</div>
+            <form action="/" method="POST">
+                <input type="hidden" name="action" value="do_login">
+                <input type="text" class="login-input" name="username" placeholder="Identifiant" required>
+                <input type="password" class="login-input" name="password" placeholder="Mot de Passe" required>
+                <button type="submit" class="btn-login">Se Connecter</button>
+            </form>
+            <div class="login-footer">
+                Calculateur Frais Réels &copy; 2025 - Air France<br>
+                <form action="/" method="POST" style="margin-top:10px;">
+                     <input type="hidden" name="action" value="go_register">
+                     <button style="background:none; border:none; color:#054ada; font-weight:700; cursor:pointer; text-decoration:underline;">Créer un compte</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if step == 'register' %}
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="logo-circle"><svg class="abstract-plane" viewBox="0 0 24 24"><path d="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z" /></svg></div>
+            <div class="login-title">CRÉER UN COMPTE</div>
+            <div class="login-sub">ACCÈS SÉCURISÉ MEMBRE PN</div>
+            <form action="/" method="POST">
+                <input type="hidden" name="action" value="do_register">
+                <input type="text" class="login-input" name="reg_matricule" placeholder="Matricule" required>
+                <input type="email" class="login-input" name="reg_email" placeholder="Email Air France" required>
+                <input type="password" class="login-input" name="reg_pass" placeholder="Mot de Passe" required>
+                <button type="submit" class="btn-login">S'inscrire</button>
+            </form>
+            <div class="login-footer">
+                <form action="/" method="POST" style="margin-top:10px;">
+                     <input type="hidden" name="action" value="logout">
+                     <button style="background:none; border:none; color:#64748b; font-weight:600; cursor:pointer;">Retour Connexion</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    <style>
+        /* --- BARRE DE PROGRESSION IMPORT PDF --- */
+        .progress-container { width: 100%; background-color: #e2e8f0; border-radius: 8px; margin-top: 15px; overflow: hidden; height: 12px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); }
+        .progress-bar { height: 100%; background-color: var(--af-blue-light); width: 0%; transition: width 0.4s ease; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent); background-size: 1rem 1rem; animation: progress-stripes 1s linear infinite; }
+        @keyframes progress-stripes { from { background-position: 1rem 0; } to { background-position: 0 0; } }
+        .progress-text-percent { font-size: 11px; color: #64748b; margin-top: 5px; font-weight: bold; }
+    </style>
+    
+    {% if step == 0 %}
+    <div class="lp-hero">
+        <div class="lp-title">
+            CALCUL DE FRAIS RÉELS PNC
+            <span class="info-bubble" onclick="openGuide()">?</span>
+        </div>
+        <div class="lp-sub">Le régime fiscal du Personnel Navigant (PNC et PNT) présente des particularités uniques liées à la mobilité de la profession.</div>
+    </div>
+    <div class="intro-wrapper">
+        <div class="intro-main">
+            <div class="info-card"><div class="card-icon"><i class="fas fa-calculator"></i></div><div class="card-title">1. Déclarer pour Déduire</div><div class="card-text">La règle d'or est la réintégration. Vous devez ajouter à votre revenu imposable l'ensemble des indemnités versées (Repas, Hébergement, Transport).</div></div>
+            <div class="info-card"><div class="card-icon"><i class="fas fa-utensils"></i></div><div class="card-title">2. Repas & Découchés</div><div class="card-text">Calcul basé sur des forfaits validés : Forfait Nuitée pour la Zone Euro (MC) et coût de l'escale IATA pour la Zone Monde (LC).</div></div>
+            <div class="info-card" style="grid-column: span 2;"><div class="card-icon"><i class="fas fa-car"></i></div><div class="card-title">3. Frais de Transport</div><div class="card-text">Calcul précis selon la puissance fiscale (CV) et la distance annuelle domicile-travail, avec gestion du plafond de 40km.</div></div>
+        </div>
+        <div class="intro-side">
+            <div class="side-card" style="margin-bottom:20px;">
+                <div class="side-title"><i class="fas fa-balance-scale"></i> Cadre Juridique</div>
+                <div style="margin-bottom:10px;"><span class="badge" style="background:#fef3c7; color:#b45309; border:none;">Art. 83 du CGI</span></div>
+                <div class="side-text">Les frais inhérents à la fonction sont déductibles. Pour le PN, cela inclut repas, hébergement et transport selon les barèmes en vigueur.</div>
+            </div>
+            <div class="side-card" style="background:#fff7ed; border-color:#fdba74;">
+                <div class="side-title" style="color:#c2410c;"><i class="fas fa-shield-alt"></i> Sécurité</div>
+                <div class="side-text" style="color:#9a3412;">Outil conçu pour générer un rapport explicite, offrant une clarté optimale pour l'administration fiscale et minimisant les zones d'ombre.</div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+        <form action="/" method="POST"><input type="hidden" name="action" value="nav_click"><input type="hidden" name="target_step" value="1"><button type="submit" class="lp-btn-start">COMMENCER MON DOSSIER &rarr;</button></form>
+    </div>
+    
+    <div id="guideModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeGuide()">&times;</span>
+            <div class="help-title">GUIDE D'UTILISATION</div>
+            <ul class="help-list" style="padding-left:20px;">
+                <li><strong>Étape 1 :</strong> Renseignez vos informations personnelles, année fiscale et choix de transport.</li>
+                <li><strong>Étape 2 :</strong> Saisissez vos revenus mensuels (Net, Indemnités repas, Transport) figurant sur vos fiches de paie.</li>
+                <li><strong>Étape 3 :</strong> Ajoutez vos rotations (LC/MC). Le système calcule automatiquement les découchés.</li>
+                <li><strong>Étape 4 :</strong> Ajoutez vos frais divers (Syndicat, Uniforme, Bureau...).</li>
+                <li><strong>Fin :</strong> Générez votre rapport PDF complet prêt à être imprimé.</li>
+            </ul>
+            <div style="text-align:center; margin-top:20px;"><button class="btn btn-sm-action btn-pdf" onclick="closeGuide()">FERMER</button></div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if step == 1 %}
+    <div class="step-card">
+        <h2>📋 Étape 1 : Informations Personnelles</h2>
+        <div class="desc">Veuillez renseigner votre profil navigant et vos options de transport.</div>
+        
+        <form action="/" method="POST" id="mainForm">
+            <input type="hidden" name="action" id="action" value="save_step_1">
+            <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+            <input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+
+            <div class="form-row">
+                <div class="form-label"><label>Année fiscale</label></div>
+                <div class="form-input-container">
+                    <select name="annee" onchange="verifierChamp(this)">
+                        <option value="2025" {% if data.get('annee') == '2025' %}selected{% endif %}>2025</option>
+                        <option value="2024" {% if data.get('annee') == '2024' %}selected{% endif %}>2024</option>
+                    </select>
+                    <span class="check-icon">✔️</span>
+                </div>
+                <div class="form-info">Année de la déclaration (ex: 2025 pour les revenus de 2024).</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label"><label>Identité</label></div>
+                <div class="form-input-container" style="display:flex; gap:10px;">
+                    <input type="text" name="nom" value="{{ data.get('nom', '') }}" placeholder="NOM" oninput="verifierChamp(this)">
+                    <input type="text" name="prenom" value="{{ data.get('prenom', '') }}" placeholder="Prénom" oninput="verifierChamp(this)">
+                    <span class="check-icon">✔️</span>
+                </div>
+                <div class="form-info">Vos nom et prénom tels qu'ils figurent sur vos impôts.</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label"><label>Profil Navigant</label></div>
+                <div class="form-input-container" style="display:flex; gap:10px;">
+                    <select name="fonction" onchange="verifierChamp(this)">
+                        <option value="" disabled {% if not data.get('fonction') %}selected{% endif %}>Fonction...</option>
+                        <option value="Steward" {% if data.get('fonction')=='Steward' %}selected{% endif %}>Steward</option>
+                        <option value="Hotesse" {% if data.get('fonction')=='Hotesse' %}selected{% endif %}>Hôtesse</option>
+                        <option value="CCP" {% if data.get('fonction')=='CCP' %}selected{% endif %}>CCP</option>
+                        <option value="CC" {% if data.get('fonction')=='CC' %}selected{% endif %}>CC</option>
+                    </select>
+                    <select name="base" onchange="verifierChamp(this)">
+                        <option value="" disabled {% if not data.get('base') %}selected{% endif %}>Base...</option>
+                        <option value="CDG" {% if data.get('base')=='CDG' %}selected{% endif %}>CDG</option>
+                        <option value="ORY" {% if data.get('base')=='ORY' %}selected{% endif %}>ORY</option>
+                    </select>
+                    <span class="check-icon">✔️</span>
+                </div>
+                <div class="form-info">Détermine les barèmes et plafonds applicables.</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label"><label>Transport</label></div>
+                <div class="form-input-container">
+                    <select name="transport_mode" id="transport_mode" onchange="toggleCarFields(); verifierChamp(this)">
+                        <option value="" disabled {% if not data.get('transport_mode') %}selected{% endif %}>Mode de transport...</option>
+                        <option value="Voiture" {% if data.get('transport_mode') == 'Voiture' %}selected{% endif %}>Voiture personnelle</option>
+                        <option value="Commun" {% if data.get('transport_mode') == 'Commun' %}selected{% endif %}>Transports en commun</option>
+                    </select>
+                    <span class="check-icon">✔️</span>
+                </div>
+                <div class="form-info">Détermine le calcul des frais kilométriques.</div>
+            </div>
+
+            <div class="form-row" id="row-vehicule" style="display: {% if data.get('transport_mode') == 'Voiture' %}flex{% else %}none{% endif %};">
+                <div class="form-label" style="color: var(--af-red);">Détails Véhicule</div>
+                <div class="form-input-container">
+                    <input type="number" name="dist_base" value="{{ data.get('dist_base', '') }}" placeholder="Km Aller (ex: 35)" oninput="verifierChamp(this)">
+                    <input type="number" name="cv" value="{{ data.get('cv', '') }}" placeholder="Puissance (CV)" oninput="verifierChamp(this)">
+                    <span class="check-icon">✔️</span>
+                </div>
+                <div class="form-info">Distance Domicile ➔ Base et Puissance fiscale.</div>
+            </div>
+            
+            <!-- Ajoute cette ligne si elle n'y est pas -->
+            <input type="hidden" name="target_step" value="2">
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 20px; clear: both;">
+                <button type="submit" class="btn btn-next" style="float: none; margin-top: 0;">Suivant ➔</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    {% if step == 2 %}
+<div>
+        <div class="step-card">
+            <h2>Saisie des Rotations</h2>
+            <div class="desc">
+                Ajoutez vos rotations LC ou MC. Le calcul des indemnités est automatique.
+            </div>
+            {% if error_rotation %}<div class="alert alert-error">{{ error_rotation }}</div>{% endif %}
+            <form action="/" method="POST">
+                <input type="hidden" name="action" value="add_rotation"><input type="hidden" name="current_data" value='{{ data_json }}'><input type="hidden" name="current_revenus" value='{{ revenus_json }}'><input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+                
+                <div class="grid-row" style="display: flex; align-items: flex-end; gap: 10px;">
+                    <!-- BOUTON IMPORTER ALIGNÉ ICI -->
+                    <div style="flex: 0 0 auto;">
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-upload" onclick="openUploadEp4()" style="height: 42px; white-space: nowrap; margin: 0;">📂 IMPORTER PDF EP4</button>
+                    </div>
+
+                    <div class="col-month"><label>Mois</label><select name="mois_act">{% for m in all_months %}<option value="{{ m }}" {% if m == next_month_act %}selected{% endif %}>{{ m }}</option>{% endfor %}</select></div>
+                    <div class="col-sm"><label>Type</label><select name="mode_act" id="mode_act" onchange="updateFormMode()"><option value="LC">LC</option><option value="MC">MC</option></select></div>
+                    <div class="col-xs"><label>Départ</label><input type="number" id="jour_dep" name="jour_dep" placeholder="J" oninput="updateMCInputs()" value="{{ form_state.get('jour_dep', '') }}"></div>
+                    <div class="col-xs"><label>Retour</label><input type="number" id="jour_arr" name="jour_arr" placeholder="J" oninput="updateMCInputs()" value="{{ form_state.get('jour_arr', '') }}"></div>
+                    <div class="col-dest" id="block-lc"><label>Destination</label><input type="text" name="iata_arrivee" id="input-iata" placeholder="Code IATA (ex: JFK)" value="{{ form_state.get('iata_arrivee', '') }}"></div>
+                    <div class="col-btn"><label>&nbsp;</label><button type="submit" class="btn btn-add">{% if form_state %}OK{% else %}➕{% endif %}</button></div>
+                </div>
+
+                <div id="block-mc" style="display:none; background:#f8fafc; padding:20px; border-radius:8px; border:1px dashed #cbd5e1; margin-top:20px;">
+                    <h4 style="font-size:12px; margin-bottom:15px; text-transform:uppercase;">Détail Escales Moyen Courrier</h4>
+                    <div class="grid-row" style="margin-bottom:0;">
+                        <div id="group_escale_1" class="col" style="display:none;"><label>Escale 1</label><input type="text" name="iata_1" placeholder="IATA" value="{{ form_state.get('iata_1', '') }}"></div>
+                        <div id="group_escale_2" class="col" style="display:none;"><label>Escale 2</label><input type="text" name="iata_2" placeholder="IATA" value="{{ form_state.get('iata_2', '') }}"></div>
+                        <div id="group_escale_3" class="col" style="display:none;"><label>Escale 3</label><input type="text" name="iata_3" placeholder="IATA" value="{{ form_state.get('iata_3', '') }}"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="uploadModalEp4" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeUploadEp4()">&times;</span>
+                <div class="help-title">IMPORT PLANNING (EP4/EP5)</div>
+                <form action="/" method="POST" enctype="multipart/form-data" id="form-upload-ep4">
+                    <input type="hidden" name="action" value="upload_ep4">
+                    <input type="hidden" name="current_data" value='{{ data_json }}'>
+                    <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+                    <input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+                    
+                    <div id="drop-zone-ep4" class="upload-area" onclick="document.getElementById('pdf_file_ep4').click()">
+                        <i class="fas fa-plane-departure" style="font-size:30px; margin-bottom:10px;"></i><br>
+                        Cliquez pour sélectionner vos relevés EP4/EP5 (PDF)<br>
+                        <span style="font-size:11px;">(Import groupé possible)</span>
+                    </div>
+                    
+                    <div id="loader-zone-ep4" class="loader-container">
+                        <div class="loading-text" id="loading-text-ep4">⏳ Analyse du planning EP4/EP5...</div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress-bar-ep4"></div>
+                        </div>
+                        <div class="progress-text-percent" id="progress-percent-ep4">0%</div>
+                    </div>
+
+                    <input type="file" name="pdf_file" id="pdf_file_ep4" accept=".pdf, .zip" multiple style="display:none;" onchange="startUploadProcessEp4()">
+                </form>
+            </div>
+        </div>
+        
+        {% if lignes %}
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding: 0 10px;">
+                    <div style="font-size:12px; color:var(--af-navy); font-weight:600;">
+                        <i class="fas fa-info-circle" style="color:var(--af-blue-light);"></i> Barème IATA appliqué (Date du fichier : {{ date_bareme }})
+                    </div>
+                    <form action="/" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir tout effacer et recommencer ?');">
+                        <input type="hidden" name="action" value="clear_rotations">
+                        <input type="hidden" name="current_data" value='{{ data_json }}'>
+                        <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+                        <input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+                        <button type="submit" class="btn-icon delete" style="width:auto; padding:0 15px; color:#dc2626; border-color:#f87171; font-weight:bold;">
+                            <i class="fas fa-trash-alt" style="margin-right:5px;"></i> Vider la liste
+                        </button>
+                    </form>
+                </div>
+
+                <div class="step-card" style="padding:0; overflow:hidden; margin-top:15px;">
+                    
+                    <div style="padding: 15px 15px 0 15px;">
+                        <button type="button" class="btn btn-secondary btn-sm-action" onclick="toggleTable('tbody-lignes', this)">Afficher les détails ▼</button>
+                    </div>
+                    
+                    <div style="max-height:400px; overflow-y:auto;">
+                        <table style="margin-top:0; border:none; border-radius:0;">
+                            <thead>
+                                <tr>
+                                    <th>Période</th>
+                                    <th>Type</th>
+                                    <th>Trajet</th>
+                                    <th>Pays</th>
+                                    <th style="text-align:right;">Montant</th>
+                                    <th>Jours</th>
+                                    <th style="text-align:right;">Total</th>
+                                    <th class="actions-col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-lignes" style="display: none;">
+                                {% for l in lignes %}
+                                <tr>
+                                    <td>{{ l.mois }}</td>
+                                    <td><span class="badge" {% if l.mode == 'SOL' or l.mode == 'RESERVE' %}style="background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;"{% elif l.mode == '???' %}style="background:#fef2f2;color:#dc2626;border:1px solid #f87171;"{% endif %}>{{ l.mode }}</span></td>
+                                    <td>{{ l.details or l.arrivee }}</td>
+                                    <td><strong>{{ l.get('pays', '-') }}</strong></td>
+                                    <td class="money">{{ "{:,.2f}".format(l.get('taux', 0.0)) }} €</td>
+                                    <td>{{ l.nb_jours }}</td>
+                                    <td class="money">{{ "{:,.2f}".format(l.total) }} €</td>
+                                    <td class="actions-col">
+                                        <form action="/" method="POST" style="display:inline;">
+                                            <input type="hidden" name="action" value="edit_rotation"><input type="hidden" name="line_index" value="{{ loop.index0 }}"><input type="hidden" name="current_data" value='{{ data_json }}'><input type="hidden" name="current_revenus" value='{{ revenus_json }}'><input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+                                            <button class="btn-icon">✏️</button>
+                                        </form>
+                                        <form action="/" method="POST" style="display:inline;">
+                                            <input type="hidden" name="action" value="delete_rotation"><input type="hidden" name="line_index" value="{{ loop.index0 }}"><input type="hidden" name="current_data" value='{{ data_json }}'><input type="hidden" name="current_revenus" value='{{ revenus_json }}'><input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+                                            <button class="btn-icon delete">🗑️</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">TOTAL GÉNÉRAL</td>
+                                    <td style="font-weight: 800; color: var(--af-navy);">{{ total_jours }} j</td>
+                                    <td class="money">{{ "{:,.2f}".format(total_indemnite_rotations) }} €</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+        {% endif %}
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 20px; padding-bottom: 20px; clear: both;">
+            <form action="/" method="POST" onsubmit="return validerActivites()">
+                <input type="hidden" name="action" value="nav_click">
+                <input type="hidden" name="target_step" value="3">
+                <input type="hidden" name="current_data" value='{{ data_json }}'>
+                <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+                <input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+                <input type="hidden" id="act-count" value="{{ months_count }}">
+                <button type="submit" class="btn btn-next" style="float: none; margin-top: 0;">Suivant &rarr;</button>
+            </form>
+        </div>
+    </div>
+{% endif %}
+    
+    {% if step == 3 %}
+<div class="step-content">
+    <div class="step-card">
+        <h2>Saisie des Revenus</h2>
+        <div class="desc">Saisissez les montants nets et indemnités figurant sur vos fiches de paie.</div>
+        
+        <form action="/" method="POST">
+            <input type="hidden" name="action" value="add_revenu">
+            <input type="hidden" name="current_data" value='{{ data_json }}'>
+            <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+            <input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+
+            <div class="grid-row" style="display: flex; align-items: flex-end; gap: 8px; flex-wrap: nowrap;">
+                <!-- Bouton Importer Aligné -->
+                <div style="flex: 0 0 auto;">
+                    <label>&nbsp;</label>
+                    <button type="button" class="btn btn-upload" onclick="openUpload()" style="height: 38px; margin: 0; padding: 0 12px; white-space: nowrap; font-size: 0.85em; display: block;">📂 IMPORTER PDF</button>
+                </div>
+                
+                <div style="flex: 1.2;"><label>Mois</label><select name="mois" style="width:100%; height:38px;">{% for m in all_months %}<option value="{{ m }}" {% if m == next_month_rev %}selected{% endif %}>{{ m }}</option>{% endfor %}</select></div>
+                <div style="flex: 1;"><label>Net Imp.</label><input type="number" step="0.01" name="net" placeholder="0.00" value="{{ revenu_form_state.get('net', '') }}" required style="width:100%; height:38px;"></div>
+                <div style="flex: 1;"><label>Ind. Imp</label><input type="number" step="0.01" name="ind_imp" placeholder="0.00" value="{{ revenu_form_state.get('ind_imp', '') }}" style="width:100%; height:38px;"></div>
+                <div style="flex: 1;"><label>Ind. Non</label><input type="number" step="0.01" name="ind_non" placeholder="0.00" value="{{ revenu_form_state.get('ind_non', '') }}" style="width:100%; height:38px;"></div>
+                <div style="flex: 1;"><label>Transport</label><input type="number" step="0.01" name="trans" placeholder="0.00" value="{{ revenu_form_state.get('trans', '') }}" style="width:100%; height:38px;"></div>
+                <div style="flex: 0 0 auto;">
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn btn-add" style="height: 38px; width: 45px; display: block;">{% if revenu_form_state %}OK{% else %}➕{% endif %}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal d'import -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeUpload()">&times;</span>
+            <div class="help-title">IMPORT AUTOMATIQUE PDF</div>
+            <form action="/" method="POST" enctype="multipart/form-data" id="form-upload">
+                <input type="hidden" name="action" value="upload_pdf">
+                <input type="hidden" name="current_data" value='{{ data_json }}'>
+                <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+                <div class="upload-area" onclick="document.getElementById('pdf_file').click()">
+                    <input type="file" name="pdf_file" id="pdf_file" accept=".pdf, .zip" multiple style="display:none;" onchange="startUploadProcess()">
+                    <i class="fas fa-cloud-upload-alt" style="font-size:30px; margin-bottom:10px;"></i><br>Sélectionnez vos bulletins
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if revenus %}
+        <!-- Bouton Vider -->
+        <div style="display:flex; justify-content:flex-end; margin-top:20px; padding: 0 10px;">
+            <form action="/" method="POST" onsubmit="return confirm('Tout effacer ?');">
+                <input type="hidden" name="action" value="clear_revenus">
+                <input type="hidden" name="current_data" value='{{ data_json }}'>
+                <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+                <button type="submit" class="btn-icon delete" style="width:auto; padding:0 15px; color:#dc2626; border-color:#f87171; font-weight:bold;">
+                    <i class="fas fa-trash-alt" style="margin-right:5px;"></i> Vider la liste
+                </button>
+            </form>
+        </div>
+
+        <div class="step-card" style="padding:0; overflow:hidden; margin-top:10px;">
+            <!-- RETOUR DU TOGGLE -->
+            <div style="padding: 15px;">
+                <button type="button" class="btn btn-secondary btn-sm-action" onclick="toggleTable('tbody-revenus', this)">Afficher les détails ▼</button>
+            </div>
+            
+            <div style="max-height:400px; overflow-y:auto;">
+                <table style="margin:0; width:100%;">
+                    <thead><tr><th>Mois</th><th>Net</th><th>Ind. Imp</th><th>Ind. Non</th><th>Trans.</th><th>Total</th><th style="width:50px;"></th></tr></thead>
+                    <tbody id="tbody-revenus" style="display: none;">
+                        {% for r in revenus %}
+                        <tr>
+                            <td><strong>{{ r.mois }}</strong></td>
+                            <td class="money">{{ "{:,.2f}".format(r.net) }}</td>
+                            <td class="money">{{ "{:,.2f}".format(r.ind_imp) }}</td>
+                            <td class="money">{{ "{:,.2f}".format(r.ind_non) }}</td>
+                            <td class="money">{{ "{:,.2f}".format(r.trans) }}</td>
+                            <td class="money"><strong>{{ "{:,.2f}".format(r.total) }}</strong></td>
+                            <td>
+                                <form action="/" method="POST">
+                                    <input type="hidden" name="action" value="delete_revenu">
+                                    <input type="hidden" name="line_index" value="{{ loop.index0 }}">
+                                    <input type="hidden" name="current_data" value='{{ data_json }}'>
+                                    <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+                                    <button class="btn-icon delete">🗑️</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot style="background:#f8fafc; font-weight:bold;">
+                        <tr>
+                            <td>TOTAL</td>
+                            <td class="money">{{ "{:,.2f}".format(total_rev_net) }}</td>
+                            <td class="money">{{ "{:,.2f}".format(total_rev_ind_imp) }}</td>
+                            <td class="money">{{ "{:,.2f}".format(total_rev_ind_non) }}</td>
+                            <td class="money">{{ "{:,.2f}".format(total_rev_trans) }}</td>
+                            <td class="money">{{ "{:,.2f}".format(total_rev_global) }}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Message Hôtel -->
+        {% if data.montant_attestation %}
+        <div style="margin-top: 15px; padding: 12px; background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; display: flex; align-items: center; gap: 10px; border-left: 4px solid #22c55e;">
+            📑 <span style="color: #166534; font-size: 0.9em;"><strong>Hébergement ajouté :</strong> {{ "{:,.2f}".format(data.montant_attestation) }} €</span>
+        </div>
+        {% endif %}
+    {% endif %}
+
+    <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+        <form action="/" method="POST">
+            <input type="hidden" name="action" value="nav_click">
+            <input type="hidden" name="target_step" value="4">
+            <input type="hidden" name="current_data" value='{{ data_json }}'>
+            <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+            <input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+            <button type="submit" class="btn btn-next">Suivant ➔</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+   
+
+   {% if step == 4 %}
+    <!-- Chargement de la librairie graphique -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <form action="/" method="POST" id="form-print-email">
+        <input type="hidden" name="action" id="final_action" value="view_report">
+        <input type="hidden" name="montant_attestation" value="{{ data.montant_attestation }}">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 15px;">
+            <h2 style="margin:0;">Finalisation & Frais Divers</h2>
+            <div style="font-size:12px; color:#64748b; background:#f1f5f9; padding:5px 10px; border-radius:5px;">
+                <i class="fas fa-check-circle" style="color:var(--success);"></i> Basé sur {{ count_rev|default(12) }} mois saisis
+            </div>
+        </div>
+
+        <div class="split-view" style="display:flex; gap:30px; align-items:stretch;">
+            
+            <!-- GAUCHE : Saisie et Aides -->
+            <div class="split-left step-card" style="flex:1; margin-bottom:0;">
+                <h3 style="margin-top:0;">Frais Supplémentaires</h3>
+                <p style="font-size:12px; color:#64748b; margin-bottom:15px;">Passez la souris sur l'icône ℹ️ pour plus d'infos.</p>
+                
+                <div class="grid-2">
+                    <div class="col">
+                        <label>Syndicat <span title="Cotisations annuelles SNPNC, UNAC, SNPNC-FO, etc." style="cursor:help;">ℹ️</span></label>
+                        <input type="number" id="cotis" name="cotis" value="{{ data.cotis or '' }}" oninput="updateBilan()">
+                    </div>
+                    <div class="col">
+                        <label>Uniforme <span title="Frais de pressing, retouches, achat de collants/chaussures réglementaires." style="cursor:help;">ℹ️</span></label>
+                        <input type="number" id="uniforme" name="uniforme" value="{{ data.uniforme or '' }}" oninput="updateBilan()">
+                    </div>
+                </div>
+                <div class="grid-2" style="margin-top:20px;">
+                    <div class="col">
+                        <label>Frais Bureau <span title="Abonnements internet (au prorata), papeterie, impression." style="cursor:help;">ℹ️</span></label>
+                        <input type="number" id="bureau" name="bureau" value="{{ data.bureau or '' }}" oninput="updateBilan()">
+                    </div>
+                    <div class="col">
+                        <label>Autre <span title="Bagages professionnels, visa à votre charge, etc." style="cursor:help;">ℹ️</span></label>
+                        <input type="number" id="autre" name="autre" value="{{ data.autre or '' }}" oninput="updateBilan()">
+                    </div>
+                </div>
+
+                <!-- Alerte intelligente masquée par défaut -->
+                <div id="warning-autre" style="display:none; background:#fff7ed; color:#c2410c; border:1px solid #fdba74; padding:10px; border-radius:6px; font-size:11px; margin-top:20px;">
+                    <strong>⚠️ Attention :</strong> Vous avez saisi un montant élevé en "Autre". L'administration fiscale peut exiger des factures nominatives très précises en cas de contrôle.
+                </div>
+            </div>
+
+            <!-- DROITE : Graphique et Bilan -->
+            <div class="split-right step-card" style="flex:1; display:flex; flex-direction:column; margin-bottom:0;">
+                <h3 style="margin-top:0;">Bilan des Déductions</h3>
+                
+                <div style="display:flex; align-items:center; gap:20px; flex:1;">
+                    <!-- Le conteneur du graphique -->
+                    <div style="width: 140px; height: 140px; position:relative;">
+                        <canvas id="deductionChart"></canvas>
+                    </div>
+                    
+                    <!-- Les valeurs à côté du graphique -->
+                    <div style="flex:1;">
+                        <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; color:#64748b;">
+                            <span><span style="color:#054ada;">●</span> Rotations</span> 
+                            <strong>{{ "{:,.0f}".format(total_indemnite_rotations) }} €</strong>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; color:#64748b;">
+                            <span><span style="color:#38bdf8;">●</span> Kilomètres</span> 
+                            <strong id="display-km-val">{{ "{:,.0f}".format(total_km_valeur) }} €</strong>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; color:#64748b;">
+                            <span><span style="color:#f59e0b;">●</span> Frais Divers</span> 
+                            <strong id="display-divers">0 €</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recap-total" style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; font-size:18px; border-top:2px solid #e2e8f0; padding-top:15px;">
+                    <span>TOTAL FR</span>
+                    <span id="display-total" style="color:var(--af-blue);">{{ "{:,.0f}".format(total_indemnite_rotations + total_km_valeur) }} €</span>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="base-indem" value="{{ total_indemnite_rotations }}"><input type="hidden" id="total-km-input" value="{{ total_km_annee }}"><input type="hidden" name="current_data" value='{{ data_json }}'><input type="hidden" name="current_revenus" value='{{ revenus_json }}'><input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+
+       <div class="no-print" style="display: flex; justify-content: center; margin-top: 20px; padding-bottom: 20px;">
+    <button type="button" class="btn btn-pdf" style="float:none;" onclick="document.getElementById('form-print-email').submit();">
+        📄 GÉNÉRER LE RAPPORT PDF
+    </button>
+</div>
+    </form>
+
+    <script>
+        // Initialisation du graphique uniquement quand l'étape 4 est affichée
+        let myChart;
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const ctx = document.getElementById('deductionChart');
+            if (ctx) {
+                myChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Rotations', 'Kilomètres', 'Frais Divers'],
+                        datasets: [{
+                            data: [parseFloat(document.getElementById('base-indem').value) || 0, parseFloat(document.getElementById('total-km-input').value)*0.5 || 0, 0],
+                            backgroundColor: ['#054ada', '#38bdf8', '#f59e0b'],
+                            borderWidth: 0,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: { legend: { display: false }, tooltip: { enabled: true } }
+                    }
+                });
+                updateBilan(); // Met à jour avec les valeurs par défaut
+            }
+        });
+    </script>
+    {% endif %}
+
+    {% if step == 5 %}
+    <div class="report-section paper-view">
+        <div class="report-header">
+            <div class="pdf-logo">ÉTAT RÉCAPITULATIF DES FRAIS PROFESSIONNELS</div>
+            <div class="pdf-meta">Déclaration revenus {{ data.annee }}<br>Édité le {{ today }}</div>
+        </div>
+
+        <div class="pdf-grid">
+            <div class="pdf-box">
+                <h4>CONTRIBUABLE</h4>
+                <div class="pdf-val">{{ data.nom }} {{ data.prenom }}</div>
+                <div>{{ data.adr_rue }}<br>{{ data.adr_cp }} {{ data.adr_ville }}</div>
+                <div>N° Fiscal : {{ data.num_fiscal }}</div>
+            </div>
+            <div class="pdf-box">
+                <h4>STATUT PROFESSIONNEL</h4>
+                <div>Fonction : <strong>{{ data.fonction }}</strong></div>
+                <div>Régime : <strong>{{ data.regime }}</strong></div>
+                <div>Base d'affectation : {{ data.base }}</div>
+            </div>
+        </div>
+
+        <h3>1. DÉCLARATION DES REVENUS (AJUSTEMENT)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>DÉSIGNATION</th>
+                    <th style="text-align:right">MONTANT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Traitement & Salaires (Net Imposable)</td>
+                    <td class="money">{{ "{:,.2f}".format(sum_net|default(0)) }} €</td>
+                </tr>
+                <tr>
+                    <td>Indemnités Repas (Imposables)</td>
+                    <td class="money">{{ "{:,.2f}".format(sum_ind_imp|default(0)) }} €</td>
+                </tr>
+                <tr>
+                    <td>Indemnités Repas (Non Imposables)</td>
+                    <td class="money">{{ "{:,.2f}".format(sum_ind_non|default(0)) }} €</td>
+                </tr>
+                <tr>
+                    <td>Indemnités Transport & Trajet</td>
+                    <td class="money">{{ "{:,.2f}".format(sum_trans|default(0)) }} €</td>
+                </tr>
+                
+                {# FORCE L'AFFICHAGE SI LE MONTANT EXISTE DANS DATA #}
+                {% if data.montant_attestation and data.montant_attestation > 0 %}
+                <tr style="font-style: italic; color: #475569; background-color: #f8fafc;">
+                    <td>Frais d'hebergement  payés par Air France</td>
+                    <td class="money">{{ "{:,.2f}".format(data.montant_attestation) }} €</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        
+        <div class="tax-summary">
+            <div class="tax-row">
+                <span class="tax-label">TOTAL REVENUS BRUTS (Case <span class="tax-code">1AJ</span> ou 1BJ)</span>
+                <span class="tax-amount">{{ "{:,.2f}".format(total_revenus|default(0)) }} €</span>
+            </div>
+        </div>
+        
+        {# LA SUITE VERS LES FRAIS RÉELS... #}
+        <h3>2. DÉDUCTION DES FRAIS RÉELS</h3>
+        <table><thead><tr><th>NATURE DES FRAIS</th><th style="text-align:right">DÉDUCTION</th></tr></thead><tbody><tr><td>Frais de Repas & Découchés (Barème IATA/Bercy) - {{ total_jours }} nuitées</td><td class="money">{{ "{:,.2f}".format(total_indemnite_rotations) }} €</td></tr>{% if data.transport_mode == 'Voiture' %}<tr><td>Frais Kilométriques ({{ "{:,.0f}".format(total_km_annee) }} km x {{ data.cv }} CV)</td><td class="money">{{ "{:,.2f}".format(total_km_valeur) }} €</td></tr>{% endif %}<tr><td>Cotisations Syndicales & Professionnelles</td><td class="money">{{ "{:,.2f}".format(data.get('cotis', 0)) }} €</td></tr><tr><td>Frais Entretien Uniforme & Pressing</td><td class="money">{{ "{:,.2f}".format(data.get('uniforme', 0)) }} €</td></tr><tr><td>Frais de Bureau, Documentation & Divers</td><td class="money">{{ "{:,.2f}".format(data.get('bureau', 0) + data.get('autre', 0)) }} €</td></tr></tbody></table>
+        <div class="tax-summary" style="border-color:#E30613; background:#fff5f5 !important;"><div class="tax-row"><span class="tax-label">TOTAL FRAIS RÉELS DÉDUCTIBLES (Case <span class="tax-code">1AK</span> ou 1BK)</span><span class="tax-amount" style="color:#E30613;">{{ "{:,.2f}".format(grand_total) }} €</span></div></div>
+        
+        <div class="disclaimer-box">
+            <div class="disclaimer-title">DÉGAGEMENT DE RESPONSABILITÉ</div>
+            <p>Ce document est généré automatiquement sur la base des informations saisies par l'utilisateur. Il constitue une aide à la déclaration et ne saurait engager la responsabilité de l'éditeur du logiciel en cas d'erreur, d'omission ou de redressement fiscal. L'exactitude des montants déclarés relève de la responsabilité exclusive du contribuable, qui doit être en mesure de justifier ses frais réels auprès de l'administration fiscale.</p>
+        </div>
+        <div class="signature-line"><div>Fait à {{ data.adr_ville }}, le {{ today }}</div><div>Signature :</div></div>
+        <div class="pdf-footer">Document généré via Portail Navigant - Usage fiscal personnel - Page 1/2</div>
+
+        <div class="report-page page-break" style="margin-top:50px;">
+            <div class="report-header"><div class="pdf-logo">DÉTAIL DES ROTATIONS & ACTIVITÉS</div><div class="pdf-meta">Page 2/2</div></div>
+            
+            <table>
+                <thead>
+                    <tr><th>DATE</th><th>TRAJET</th><th>VILLE</th><th>PAYS</th><th>NUITÉE</th><th>DURÉE</th><th style="text-align:right">TOTAL</th></tr>
+                </thead>
+                <tbody>
+                    {% set ns = namespace(current_mois=None, subtotal=0) %}
+                    {% for l in lignes %}
+                        
+                        {% if l.mois != ns.current_mois %}
+                            <!-- On affiche le total du mois précédent juste avant de changer de mois -->
+                            {% if not loop.first %}
+                            <tr style="background-color: #f1f5f9; font-weight: bold; font-size: 11px;">
+                                <td colspan="6" style="text-align:right; padding-right:15px;">Sous-total {{ ns.current_mois }} :</td>
+                                <td class="money">{{ "{:,.2f}".format(ns.subtotal) }} €</td>
+                            </tr>
+                            {% endif %}
+                            
+                            <tr class="month-header"><td colspan="7">{{ l.mois }}</td></tr>
+                            {% set ns.current_mois = l.mois %}
+                            {% set ns.subtotal = 0 %}
+                        {% endif %}
+                        
+                        <tr>
+                            <td>{{ l.jour_dep }} au {{ l.jour_arr }}</td>
+                            <td>{% if l.mode == 'MC' %}Moyen Courrier ({{ l.escales|length }} esc.){% else %}{{ l.details }}{% endif %}</td>
+                            <td>{{ l.ville }}</td>
+                            <td>{{ l.pays }}</td>
+                            <td>{{ l.taux }} €</td>
+                            <td>{{ l.nb_jours }}j</td>
+                            <td class="money">{{ "{:,.2f}".format(l.total) }} €</td>
+                        </tr>
+                        
+                        <!-- On ajoute le montant de la ligne au sous-total du mois -->
+                        {% set ns.subtotal = ns.subtotal + l.total %}
+                        
+                        <!-- Si c'est la toute dernière ligne du tableau, on affiche le dernier sous-total -->
+                        {% if loop.last %}
+                            <tr style="background-color: #f1f5f9; font-weight: bold; font-size: 11px;">
+                                <td colspan="6" style="text-align:right; padding-right:15px;">Sous-total {{ ns.current_mois }} :</td>
+                                <td class="money">{{ "{:,.2f}".format(ns.subtotal) }} €</td>
+                            </tr>
+                        {% endif %}
+                        
+                    {% endfor %}
+                    <tr class="total-row-pdf"><td colspan="6">TOTAL GÉNÉRAL</td><td class="money">{{ "{:,.2f}".format(total_indemnite_rotations) }} €</td></tr>
+                </tbody>
+            </table>
+
+            <div class="source-note">Source : indemnités nuitées forfaitaires année {{ data.annee }}, Bercy.</div>
+            <div class="pdf-footer">Document généré via Portail Navigant - Usage fiscal personnel - Page 2/2</div>
+        </div>
+
+        <div class="no-print footer-actions">
+            <form action="/" method="POST" id="form-final-decision">
+                 <input type="hidden" name="current_data" value='{{ data_json }}'>
+                 <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+                 <input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+                 
+                 {% if count_rev == 12 and months_count >= 12 %}
+                    <button type="submit" name="action" value="validate_force" class="btn btn-sm-action btn-pdf">
+                        ✅ VALIDER LE DOSSIER
+                    </button>
+                 {% else %}
+                    <div class="alert-warning-box" style="background:#fff3cd; color:#856404; padding:15px; border-radius:8px; margin-bottom:20px; text-align:left;">
+                        <strong>⚠️ Votre dossier semble incomplet :</strong>
+                        <ul style="margin-top:10px;">
+                            {% if count_rev < 12 %}<li>Revenus saisis : {{ count_rev }}/12 mois</li>{% endif %}
+                            {% if months_count < 12 %}<li>Activités saisies : {{ months_count }}/12 mois</li>{% endif %}
+                        </ul>
+                    </div>
+                    <div class="btn-container">
+                        <button type="submit" name="action" value="validate_force" class="btn btn-sm-action btn-warning">VALIDER QUAND MÊME</button>
+                        <button type="submit" name="action" value="save_later" class="btn btn-sm-action btn-secondary">SAUVEGARDER</button>
+                        <button type="submit" name="action" value="cancel_back" class="btn btn-sm-action btn-home">ANNULER ET REVENIR</button>
+                    </div>
+                 {% endif %}
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if step == 6 %}
+    <div style="text-align:center; padding:50px;">
+        <div style="font-size:50px;">✅</div>
+        <h2 style="color:var(--success);">Dossier validé avec succès !</h2>
+        <p>Le rapport a été envoyé à <strong>{{ data.email }}</strong>.</p>
+        <a href="/" class="btn btn-next" style="float:none;">Retour Accueil</a>
+    </div>
+    {% endif %}
+
+    <script>
+
+	function toggleTable(tbodyId, btn) {
+            var tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+            if (tbody.style.display === "none" || tbody.style.display === "") {
+                tbody.style.display = "table-row-group";
+                btn.innerHTML = "Masquer les détails ▲";
+            } else {
+                tbody.style.display = "none";
+                btn.innerHTML = "Afficher les détails ▼";
+            }
+        }
+        function validerRevenus() {
+            const el = document.getElementById('rev-count');
+            if (!el) return true;
+            if (parseInt(el.value) < 12) {
+                alert("⚠️ SAISIE INCOMPLÈTE\n\nVous n'avez saisi que " + el.value + " mois de revenus.\nIl faut impérativement 12 mois pour valider.");
+                return true;
+            }
+            return true;
+        }
+
+        function validerActivites() {
+            const el = document.getElementById('act-count');
+            if (!el) return true;
+            if (parseInt(el.value) < 12) {
+                alert("⚠️ ACTIVITÉS INCOMPLÈTES\n\nVous avez saisi des rotations sur " + el.value + " mois seulement.\nVeuillez compléter l'année (même avec 0 activité si nécessaire) ou vérifier votre saisie.");
+                return true;
+            }
+            return true;
+        }
+
+        function toggleCarFields() {
+            var mode = document.getElementById('transport_mode').value;
+            var rowVehicule = document.getElementById('row-vehicule');
+            if (rowVehicule) {
+                if (mode === 'Voiture') {
+                    rowVehicule.style.display = 'flex';
+                } else {
+                    rowVehicule.style.display = 'none';
+                }
+            }
+        }
+
+        
+        function updateFormMode() {
+            const select = document.getElementById('mode_act');
+            if (!select) return;
+            const mode = select.value;
+            const blockLC = document.getElementById('block-lc');
+            const blockMC = document.getElementById('block-mc');
+            if (!blockLC || !blockMC) return;
+            
+            if (mode === 'MC') { 
+                blockLC.style.display = 'none'; blockMC.style.display = 'block'; updateMCInputs(); 
+            } else { 
+                blockLC.style.display = 'block'; blockMC.style.display = 'none'; 
+            }
+        }
+
+        function updateMCInputs() {
+            const elDep = document.getElementById('jour_dep');
+            const elArr = document.getElementById('jour_arr');
+            if (!elDep || !elArr) return;
+            
+            if (elDep.value && elArr.value) {
+                const jDep = parseInt(elDep.value);
+                const jArr = parseInt(elArr.value);
+                let nb = 1;
+                if (jArr >= jDep) { nb = jArr - jDep + 1; }
+                const g1 = document.getElementById('group_escale_1');
+                const g2 = document.getElementById('group_escale_2');
+                const g3 = document.getElementById('group_escale_3');
+                if(g1) g1.style.display = (nb >= 2) ? 'block' : 'none';
+                if(g2) g2.style.display = (nb >= 3) ? 'block' : 'none';
+                if(g3) g3.style.display = (nb >= 4) ? 'block' : 'none';
+            }
+        }
+
+        function openHelp() { const el = document.getElementById("helpModal"); if(el) el.style.display = "block"; }
+        function closeHelp() { const el = document.getElementById("helpModal"); if(el) el.style.display = "none"; }
+        function openGuide() { const el = document.getElementById("guideModal"); if(el) el.style.display = "block"; }
+        function closeGuide() { const el = document.getElementById("guideModal"); if(el) el.style.display = "none"; }
+        function openUpload() { const el = document.getElementById("uploadModal"); if(el) el.style.display = "block"; }
+        function closeUpload() { const el = document.getElementById("uploadModal"); if(el) el.style.display = "none"; }
+        function openUploadEp4() { const el = document.getElementById("uploadModalEp4"); if(el) el.style.display = "block"; }
+        function closeUploadEp4() { const el = document.getElementById("uploadModalEp4"); if(el) el.style.display = "none"; }
+        function closeUploadAttestation() { const el = document.getElementById("uploadModalAttestation"); if(el) el.style.display = "none"; }
+        
+        function startUploadAttestation() {
+            const drop = document.getElementById('drop-zone-att');
+            const loader = document.getElementById('loader-zone-att');
+            const form = document.getElementById('form-upload-attestation');
+            if (drop) drop.style.display = 'none';
+            if (loader) loader.style.display = 'block';
+            
+            animerProgression('progress-bar-att', 'progress-percent-att', 'loading-text-att');
+            if (form) form.submit();
+        }
+        // Moteur d'animation de la barre de progression
+        function animerProgression(barId, percentId, textId) {
+            let bar = document.getElementById(barId);
+            let percentText = document.getElementById(percentId);
+            let textInfo = document.getElementById(textId);
+            let width = 0;
+            
+            if (!bar || !percentText || !textInfo) return; 
+            
+            let interval = setInterval(function() {
+                if (width >= 90) {
+                    clearInterval(interval);
+                    textInfo.innerText = "⏳ Finalisation des calculs côté serveur...";
+                } else {
+                    let increment = Math.random() * (90 - width) * 0.15 + 1;
+                    width += increment;
+                    if(width > 90) width = 90;
+                    bar.style.width = width + '%';
+                    percentText.innerText = Math.round(width) + '%';
+                }
+            }, 400);
+        }
+
+        function startUploadProcess() {
+            const drop = document.getElementById('drop-zone');
+            const loader = document.getElementById('loader-zone');
+            const form = document.getElementById('form-upload');
+            if (drop) drop.style.display = 'none';
+            if (loader) loader.style.display = 'block';
+            
+            animerProgression('progress-bar-rev', 'progress-percent-rev', 'loading-text-rev');
+            if (form) form.submit();
+        }
+
+        function startUploadProcessEp4() {
+            const drop = document.getElementById('drop-zone-ep4');
+            const loader = document.getElementById('loader-zone-ep4');
+            const form = document.getElementById('form-upload-ep4');
+            if (drop) drop.style.display = 'none';
+            if (loader) loader.style.display = 'block';
+            
+            animerProgression('progress-bar-ep4', 'progress-percent-ep4', 'loading-text-ep4');
+            if (form) form.submit();
+        }
+
+        window.onclick = function(event) { 
+            if (event.target == document.getElementById("helpModal")) closeHelp(); 
+            if (event.target == document.getElementById("guideModal")) closeGuide();
+            if (event.target == document.getElementById("uploadModal")) closeUpload();
+            if (event.target == document.getElementById("uploadModalEp4")) closeUploadEp4();
+        }
+
+        window.onload = function() {
+            var hasError = document.getElementById('flag-upload-error');
+            if (hasError) openUpload();
+            
+            toggleCarFields();
+            updateFormMode();
+        };
+    </script>
+{% endblock %}

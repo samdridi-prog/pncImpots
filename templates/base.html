@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail Navigant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&family=Inter:wght@300;400;500;600&family=EB+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="{% if step == 0 %}step-0{% endif %}">
+
+    {% if step != 'login' and step != 'register' %}
+    <div class="header-wrapper">
+        <div class="top-bar">
+            <a href="#" class="auth-btn" onclick="document.getElementById('form-logout').submit(); return false;"><span>🔒</span> Déconnexion</a>
+            <div class="logo-area">
+                <div class="logo-text">✈️ CALCUL FRAIS RÉEL PN</div>
+                <div class="logo-sub">Portail Navigant & Fiscalité</div>
+            </div>
+        </div>
+        <form id="form-reset" method="POST" style="display:none;"><input type="hidden" name="action" value="nav_click"><input type="hidden" name="target_step" value="0"></form>
+        <form id="form-logout" method="POST" style="display:none;"><input type="hidden" name="action" value="logout"></form>
+
+        <div class="nav-container">
+            {% for i, label in [(1, 'Infos Personnelles'), (2, 'Activités (Rotations)'), (3, 'Revenus Fixes'), (4, 'Finalisation')] %}
+            <form action="/" method="POST" style="display:contents">
+                <input type="hidden" name="action" value="nav_click">
+                <input type="hidden" name="target_step" value="{{ i }}">
+                <input type="hidden" name="current_data" value='{{ data_json }}'>
+                <input type="hidden" name="current_revenus" value='{{ revenus_json }}'>
+                <input type="hidden" name="current_lignes" value='{{ lignes_json }}'>
+                <button class="nav-btn {% if step == i %}active{% endif %}">
+                    <span class="step-num">ÉTAPE 0{{ i }}</span><span class="step-label">{{ label }}</span>
+                </button>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if step != 'login' and step != 'register' %}
+    <div class="main-container">
+        
+       {% if step > 0 %}
+<aside class="sidebar">
+    <div class="sidebar-header">Mon Dossier {{ data.annee }}</div>
+    <div class="sidebar-content">
+        <!-- Identité -->
+        <div class="recap-item">
+            <span class="lbl">Identité <span class="status-badge st-ok">✅ OK</span></span>
+            <div class="val">{{ data.nom }} {{ data.prenom }}</div>
+            <div class="sub">{{ data.fonction }} ({{ data.regime }})</div>
+        </div>
+
+       <div class="recap-item">
+    <span class="lbl">Revenus {% if count_rev == 12 %}<span class="status-badge st-ok">✅ COMPLET</span>{% else %}<span class="status-badge st-pend">⚠️ {{ count_rev }}/12</span>{% endif %}</span>
+    <div class="val">{{ "{:,.0f}".format(total_revenus) }} €</div>
+    <div class="sub">{{ revenus|length }} mois sur 12</div>
+    
+    {# CHANGEMENT ICI : On affiche uniquement si des revenus ont été extraits #}
+    {% if data.montant_attestation and revenus|length > 0 %}
+    <div class="sub" style="color: var(--af-blue); font-weight: 600; margin-top: 5px; border-top: 1px dashed #cbd5e1; padding-top: 5px;">
+        📑 Décompte nuitées {{ data.annee }} : <strong>{{ "{:,.0f}".format(data.montant_attestation) }} €</strong>
+    </div>
+    {% endif %}
+</div>
+
+        <!-- Activités -->
+        <div class="recap-item">
+            <span class="lbl">Activités {% if months_count == 12 %}<span class="status-badge st-ok">✅ COMPLET</span>{% else %}<span class="status-badge st-pend">⚠️ {{ months_count }}/12</span>{% endif %}</span>
+            <div class="val">{{ lignes|length }} rotations</div>
+            <div class="sub">Total Indem: <strong>{{ "{:,.0f}".format(total_indemnite_rotations) }} €</strong></div>
+        </div>
+
+        <!-- Transport -->
+        <div class="recap-item">
+            <span class="lbl">Transport <span class="status-badge st-ok">✅ OK</span></span>
+            <div class="val">{{ data.transport_mode }}</div>
+            {% if data.transport_mode == 'Voiture' %}
+                <div class="sub">{{ data.dist_base }} km ({{ data.cv }} CV)</div>
+                <div class="sub" style="color:var(--af-red); font-weight:bold;">Cumul: {{ "{:,.0f}".format(total_km_annee) }} km</div>
+            {% endif %}
+        </div>
+    </div>
+</aside>
+{% endif %}
+
+        <main class="content-area {% if step == 0 %}full-width{% endif %}">
+            {% block content %}{% endblock %}
+        </main>
+
+    </div>
+    {% else %}
+        {% block login_content %}{% endblock %}
+    {% endif %}
+
+<script src="{{ url_for('static', filename='js/script.js') }}?v=2"></script>
+</body>
+</html>

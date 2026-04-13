@@ -290,7 +290,48 @@ def extraire_montant_attestation(pdf_file):
     except Exception as e:
         print(f"Erreur lors de l'extraction de l'attestation : {e}")
     return 0.0
+from fpdf import FPDF
 
+def generer_pdf_final(data, revenus, lignes):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", 'B', 16)
+    
+    # Titre
+    pdf.cell(190, 10, f"DECLARATION FRAIS REELS - {data.get('annee', '2024')}", ln=True, align='C')
+    pdf.ln(10)
+    
+    # Infos PNC
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(190, 10, f"Personnel Navigant : {data.get('prenom')} {data.get('nom')}", ln=True)
+    pdf.set_font("Arial", '', 11)
+    pdf.cell(190, 7, f"Fonction : {data.get('fonction')} | Base : {data.get('base')}", ln=True)
+    pdf.ln(5)
+
+    # Recapitulatif Financier
+    pdf.set_fill_color(230, 230, 230)
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(190, 10, " RECAPITULATIF DES CALCULS", ln=True, fill=True)
+    pdf.set_font("Arial", '', 11)
+    
+    # Calculs (on utilise les totaux que tu calcules déjà dans l'index)
+    total_indem = sum(l.get('total', 0) for l in lignes)
+    total_km_val = 0 # À lier à ta fonction calculer_frais_km
+    
+    pdf.cell(100, 8, "Total Indemnites de repas (Rotations) :", border=0)
+    pdf.cell(90, 8, f"{total_indem:,.2f} EUR", border=0, ln=True, align='R')
+    
+    pdf.cell(100, 8, "Total Frais Kilometriques :", border=0)
+    pdf.cell(90, 8, f"{data.get('total_km_valeur', 0):,.2f} EUR", border=0, ln=True, align='R')
+    
+    pdf.ln(10)
+    pdf.set_font("Arial", 'B', 14)
+    grand_total = total_indem + float(data.get('total_km_valeur', 0)) + float(data.get('total_frais_divers', 0))
+    pdf.cell(100, 10, "TOTAL GENERAL A DECLARER :")
+    pdf.cell(90, 10, f"{grand_total:,.2f} EUR", ln=True, align='R')
+
+    # Retourne le PDF sous forme de bytes
+    return pdf.output(dest='S').encode('latin-1')
 @app.route('/', methods=['GET', 'POST'])
 def index():
     step = 'login'

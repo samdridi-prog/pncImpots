@@ -8,9 +8,9 @@ import re
 import pdfplumber
 import io
 import zipfile
-import fitz  # C'est le nom de PyMuPDF
+from fpdf import FPDF
+
 app = Flask(__name__)
-import re
 
 # ==========================================
 # 1. CHARGEMENT DES DICTIONNAIRES (CSV)
@@ -91,14 +91,14 @@ def clean_montant(val_str):
 
 def calculer_frais_km(cv, distance):
     d = float(distance)
-    if d == 0: return 0
+    if d == 0: return 0.0
     p = max(min(int(cv), 7), 3) 
     if p == 3: return d * 0.529 if d <= 5000 else (d * 0.316) + 1065 if d <= 20000 else d * 0.370
     elif p == 4: return d * 0.606 if d <= 5000 else (d * 0.340) + 1330 if d <= 20000 else d * 0.407
     elif p == 5: return d * 0.636 if d <= 5000 else (d * 0.357) + 1395 if d <= 20000 else d * 0.427
     elif p == 6: return d * 0.665 if d <= 5000 else (d * 0.374) + 1457 if d <= 20000 else d * 0.447
     elif p >= 7: return d * 0.697 if d <= 5000 else (d * 0.394) + 1515 if d <= 20000 else d * 0.470
-    return 0
+    return 0.0
 
 # ==========================================
 # 3. MOTEUR D'EXTRACTION PDF
@@ -115,7 +115,7 @@ def extraire_donnees_pdf(pdf_file):
                     continue
                 text_upper = text.upper()
                 mois_page = "INCONNU"
-                
+
                 match_periode = re.search(r"PERIODE\s+DU\s+\d{2}/(\d{2})/\d{4}", text_upper)
                 if match_periode:
                     try:
@@ -125,7 +125,7 @@ def extraire_donnees_pdf(pdf_file):
                 if mois_page == "INCONNU":
                     for m in LISTE_MOIS:
                         if re.search(rf"\b{m.upper()}\b", text_upper): mois_page = m; break
-                
+
                 if mois_page == "INCONNU":
                     page.flush_cache()
                     continue
@@ -167,62 +167,62 @@ def extraire_rotations_pdf(pdf_file, data_transport, dist_base):
                     page.flush_cache()
                     continue
                 text_upper = text.upper()
-                
+
                 if "FEUILLE HORAIRE" not in text_upper:
                     page.flush_cache()
                     continue 
-                
+
                 if "FEUILLE HORAIRE D'ACTIVITE" in text_upper:
                     text_upper = text_upper.split("FEUILLE HORAIRE D'ACTIVITE")[-1]
-                
+
                 if "FEUILLE DE DECOMPTE" in text_upper:
                     text_upper = text_upper.split("FEUILLE DE DECOMPTE")[0]
                 if "FRAIS DE DEPLACEMENT" in text_upper:
                     text_upper = text_upper.split("FRAIS DE DEPLACEMENT")[0]
-                
+
                 lignes_utiles = []
                 for l in text_upper.split('\n'):
                     ligne_propre = l.replace(" ", "").replace("É", "E").replace("È", "E").replace("Û", "U")
                     if "CUMUL" in ligne_propre:
                         continue
                     lignes_utiles.append(l)
-                
+
                 text_clean_mois = '\n'.join(lignes_utiles).replace('É', 'E').replace('Û', 'U')
                 current_month = "Inconnu"
-                
+
                 for m in reversed(LISTE_MOIS):
                     mois_format = m.upper().replace('É', 'E').replace('Û', 'U')
                     if re.search(rf"\b{mois_format}\s*20\d\d\b", text_clean_mois):
                         current_month = m
                         break
-                        
+
                 if current_month == "Inconnu":
                     for m in reversed(LISTE_MOIS):
                         if m.upper().replace('É', 'E').replace('Û', 'U') in text_clean_mois:
                             current_month = m
                             break
-                            
+
                 lines = text_clean_mois.split('\n')
-                
+
                 for line in lines:
                     codes_3lettres = re.findall(r'\b([A-Z]{3})\b', line)
                     for code in codes_3lettres:
                         if code in [m.upper() for m in LISTE_MOIS]:
                             continue
-                            
+
                         if code in REF_ACTIVITES:
                             dates_vols = re.findall(r'\b(0?[1-9]|[12][0-9]|3[01])\s*(?:\|)?\s*(?:[01][0-9]|2[0-3])[.:][0-9]{2}\b', line)
                             if dates_vols: jour_dep = int(dates_vols[0])
                             else:
                                 jours = re.findall(r'\b(0?[1-9]|[12][0-9]|3[01])\b', line)
                                 jour_dep = int(jours[0]) if jours else 1
-                            
+
                             doublon = False
                             for r in rotations:
                                 if r['mois'] == current_month and r['arrivee'] == code and r['jour_dep'] == jour_dep:
                                     doublon = True
                                     break
-                                    
+
                             if not doublon:
                                 info = REF_ACTIVITES[code]
                                 km = dist_base * 2 if (data_transport == 'Voiture' and info['genere_km'] == 'OUI') else 0
@@ -233,20 +233,20 @@ def extraire_rotations_pdf(pdf_file, data_transport, dist_base):
                                     'nb_jours': 1, 'total': 0.0, 'km': km,
                                     'ville': 'Base', 'pays': 'France', 'taux': 0.0
                                 })
-                                
+
                         elif code in REF_IATA and code not in EXCLUSIONS:
                             dates_vols = re.findall(r'\b(0?[1-9]|[12][0-9]|3[01])\s*(?:\|)?\s*(?:[01][0-9]|2[0-3])[.:][0-9]{2}\b', line)
                             if dates_vols: jour_dep = int(dates_vols[0])
                             else:
                                 jours = re.findall(r'\b(0?[1-9]|[12][0-9]|3[01])\b', line)
                                 jour_dep = int(jours[0]) if jours else 1
-                            
+
                             doublon = False
                             for r in rotations:
-                                if r['mois'] == current_month and r['arrivee'] == code and abs(r['jour_dep'] - jour_dep) <= 4:
+                                if r['mois'] == current_month and r['arrivee'] == code and abs(r['jour_dep'] - jour_dep) == 0:
                                     doublon = True
                                     break
-                            
+
                             if not doublon:
                                 info = REF_IATA[code]
                                 km = dist_base * 2 if data_transport == 'Voiture' else 0
@@ -258,7 +258,7 @@ def extraire_rotations_pdf(pdf_file, data_transport, dist_base):
                                     'ville': info['ville'], 'pays': info['pays'], 'taux': info['forfait']
                                 })
                 page.flush_cache()
-                        
+
     except Exception as e:
         print(f"Erreur extraction rotations : {e}")
 
@@ -290,7 +290,10 @@ def extraire_montant_attestation(pdf_file):
     except Exception as e:
         print(f"Erreur lors de l'extraction de l'attestation : {e}")
     return 0.0
-from fpdf import FPDF
+
+# ==========================================
+# 4. GENERATION DU PDF
+# ==========================================
 
 def generer_pdf_final(data, revenus, lignes):
     pdf = FPDF()
@@ -303,9 +306,9 @@ def generer_pdf_final(data, revenus, lignes):
     
     # Infos PNC
     pdf.set_font("Arial", 'B', 12)
-    pdf.cell(190, 10, f"Personnel Navigant : {data.get('prenom')} {data.get('nom')}", ln=True)
+    pdf.cell(190, 10, f"Personnel Navigant : {data.get('prenom', '')} {data.get('nom', '')}", ln=True)
     pdf.set_font("Arial", '', 11)
-    pdf.cell(190, 7, f"Fonction : {data.get('fonction')} | Base : {data.get('base')}", ln=True)
+    pdf.cell(190, 7, f"Fonction : {data.get('fonction', '-')} | Base : {data.get('base', '-')}", ln=True)
     pdf.ln(5)
 
     # Recapitulatif Financier
@@ -314,24 +317,32 @@ def generer_pdf_final(data, revenus, lignes):
     pdf.cell(190, 10, " RECAPITULATIF DES CALCULS", ln=True, fill=True)
     pdf.set_font("Arial", '', 11)
     
-    # Calculs (on utilise les totaux que tu calcules déjà dans l'index)
-    total_indem = sum(l.get('total', 0) for l in lignes)
-    total_km_val = 0 # À lier à ta fonction calculer_frais_km
+    total_indem = sum(float(l.get('total', 0)) for l in lignes)
+    
+    # Recalcul de la valeur KM
+    total_km_annee = sum(float(l.get('km', 0)) for l in lignes)
+    total_km_val = 0.0
+    if data.get('transport_mode') == 'Voiture' and data.get('cv'):
+        total_km_val = calculer_frais_km(data.get('cv'), total_km_annee)
     
     pdf.cell(100, 8, "Total Indemnites de repas (Rotations) :", border=0)
     pdf.cell(90, 8, f"{total_indem:,.2f} EUR", border=0, ln=True, align='R')
     
     pdf.cell(100, 8, "Total Frais Kilometriques :", border=0)
-    pdf.cell(90, 8, f"{data.get('total_km_valeur', 0):,.2f} EUR", border=0, ln=True, align='R')
+    pdf.cell(90, 8, f"{total_km_val:,.2f} EUR", border=0, ln=True, align='R')
     
     pdf.ln(10)
     pdf.set_font("Arial", 'B', 14)
-    grand_total = total_indem + float(data.get('total_km_valeur', 0)) + float(data.get('total_frais_divers', 0))
+    grand_total = total_indem + total_km_val + float(data.get('total_frais_divers', 0))
     pdf.cell(100, 10, "TOTAL GENERAL A DECLARER :")
     pdf.cell(90, 10, f"{grand_total:,.2f} EUR", ln=True, align='R')
 
-    # Retourne le PDF sous forme de bytes
     return pdf.output(dest='S').encode('latin-1')
+
+# ==========================================
+# 5. ROUTE PRINCIPALE
+# ==========================================
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     step = 'login'
@@ -372,7 +383,7 @@ def index():
                     else: l['km'] = dist_b * 2
                 else: l['km'] = 0
             step = 2
-            
+
         elif action == 'delete_revenu':
             try: del revenus[int(request.form.get('line_index'))]
             except: pass
@@ -470,17 +481,15 @@ def index():
                 lignes.sort(key=lambda x: (LISTE_MOIS.index(x['mois']), x['jour_dep']))
             except Exception as e: error_rotation = "Erreur de saisie."
             step = 2
-        
+
         elif action == 'edit_rotation':
             try:
                 item = lignes.pop(int(request.form.get('line_index')))
                 form_state = {'mois_act': item['mois'], 'mode_act': item.get('mode', 'LC'), 'jour_dep': item['jour_dep'], 'jour_arr': item['jour_arr']}
                 if item.get('mode') == 'LC': form_state['iata_arrivee'] = item.get('arrivee', '')
                 elif item.get('mode') == 'MC' and item.get('escales'):
-                    for esc in item['escales']:
-                        if 'Nuit 1' in esc['etape']: form_state['iata_1'] = esc['code']
-                        if 'Nuit 2' in esc['etape']: form_state['iata_2'] = esc['code']
-                        if 'Nuit 3' in esc['etape']: form_state['iata_3'] = esc['code']
+                    for idx_esc, esc in enumerate(item['escales'], start=1):
+                        form_state[f'iata_{idx_esc}'] = esc['code']
             except: pass
             step = 2
         elif action == 'delete_rotation':
@@ -542,3 +551,4 @@ def index():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=False, port=5000)
+
